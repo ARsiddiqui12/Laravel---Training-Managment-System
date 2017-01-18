@@ -128,243 +128,69 @@
                                        
 
                                         <!-- BEGIN FORM-->
-                                        <form action="{{route('add.location')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="{{route('category.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                             
                                             {{ csrf_field() }}
                                             
                                             <div class="form-body">
-
-                                            <div class="form-group">
-                                            <div class="col-md-6">
-                                                <label>Select Project <span style="color:red;">*</span></label>
-                                                <select class="form-control" name="project" required>
-                                                    
-                                                    
-                                                <option value="" selected>Select Project</option>
-                                        
-                                               @forelse($project as $rone)   
-                                             
-                                                <option value="{{$rone->projectid}}-{{$rone->title}}">{{$rone->title}}</option>    
-                                                    
-                                               @empty  
-                                                    
-                                                <option value="">Project Not Found..!</option>
-                                                    
-                                               @endforelse   
-                                                    
-                                                </select>
-                                                
-@if ($errors->has('project'))
-<span style="color:red;">
-
-Error: {{ $errors->first('project') }}
-
-</span>
-@endif                                                
-                                                
-                                            </div> 
                                             
-                                            <div class="col-md-6">
-                                                <label>Location Name <span style="color:red;">*</span></label>
-                                                <input type="text" name="location" placeholder="Location Name" value="{{old('location')}}" class="form-control" required>
-@if ($errors->has('location'))
-<span style="color:red;">
-
-Error: {{ $errors->first('location') }}
-
-</span>
-@endif
+                                            <div class="form-group">
+                                                
+                                                <div class="col-md-6">
+                                                    <label>Select Project <span style="color:red;">*</span></label>
+                                                    <select class="form-control" name="project" required>
+                                                    
+                                                        <option value="" selected>Select Project</option>
+                                                        
+                                                        @forelse($project as $row)
+                                                        
+                                                        <option value="{{$row->projectid}}-{{$row->title}}">{{$row->title}}</option>
+                                                        
+                                                        @empty
+                                                        
+                                                        <option value="">Record not found...!</option>
+                                                        
+                                                        @endforelse
+                                                    </select>
+                                                    
+                                                    @if($errors->has('project'))
+                                                    <span style="color:red;">{{$errors->first('project')}}</span>
+                                                    @endif
+                                                    
+                                                </div>    
                                                 
                                             </div>    
                                                 
-                                            </div>     
-                                            
-                 
-                                            
                                             <div class="form-group">
-                                            <div class="col-md-6">
-                                                <label>Category <span style="color:red;">*</span></label>
-                                                <input type="text" name="category" placeholder="Location Category" value="{{old('category')}}" class="form-control" required>
-@if ($errors->has('category'))
-<span style="color:red;">
-
-Error: {{ $errors->first('category') }}
-
-</span>
-@endif                                                 
                                                 
-                                            </div> 
-                                            
-                                            <div class="col-md-6">
-                                                <label>Address <span style="color:red;">*</span></label>
-                                                <input type="text" name="address" value="{{old('address')}}" class="form-control" placeholder="Location Address" required>
-@if ($errors->has('address'))
-<span style="color:red;">
-
-Error: {{ $errors->first('address') }}
-
-</span>
-@endif                                                 
-                                            </div> 
-                                                
-                                            </div> 
-                                            
-                                              
-                                                
-                                            <div class="form-group">
-                                            <div class="col-md-6">
-                                                <label>Country <span style="color:red;">*</span></label>
-                                                <select class="form-control" name="country" required>
+                                                <div class="col-md-6">
                                                     
-                                                <option value="" selected>Select Country</option>
-                                                
-                                                @forelse($country as $rone)   
-                                             
-                                                <option value="{{$rone->countryid}}-{{$rone->country}}">{{$rone->country}}</option>    
-                                                    
-                                               @empty  
-                                                    
-                                                <option value="">Project Not Found..!</option>
-                                                    
-                                               @endforelse     
-                                                
-                                                    
-                                                 
-                                                    
-                                                </select>
-                                                @if ($errors->has('country'))
-<span style="color:red;">
-
-Error: {{ $errors->first('country') }}
-
-</span>
-@endif
-                                            </div> 
-                                                
-                                            <div class="col-md-6">
-                                                <label>State <span style="color:red;">*</span></label>
-                                                <select class="form-control" name="state" required>
-                                                    
-                                                <option value="" selected>Select State</option>
-                                                
-                                                 @forelse($state as $rone)   
-                                             
-                                                <option value="{{$rone->stateid}}-{{$rone->state}}">{{$rone->state}}</option>    
-                                                    
-                                               @empty  
-                                                    
-                                                <option value="">Project Not Found..!</option>
-                                                    
-                                               @endforelse     
-                                                
+                                                    <label>Category <span style="color:red;">*</span></label>
                                                    
-                                                    
-                                                </select>
-@if ($errors->has('state'))
-<span style="color:red;">
-
-Error: {{ $errors->first('state') }}
-
-</span>
-@endif                                                 
-                                            </div>
+                                                    <input type="text" name="category" class="form-control" value="{{old('category')}}" placeholder="Training Main Category" >
+                                                @if($errors->has('category'))
+                                                    <span style="color:red;">{{$errors->first('category')}}</span>
+                                                    @endif    
+                                                </div>    
                                                 
-                                            </div>
-                                                
-                                                
-                                                
-                                            <div class="form-group">
-                                                
-                                            <div class="col-md-6">
-                                                <label>City <span style="color:red;">*</span></label>
-                                                <select class="form-control" name="city" required>
-                                                    
-                                                <option value="" selected>Select City</option>
-                                                
-                                                    
-                                                 @forelse($city as $rone)   
-                                             
-                                                <option value="{{$rone->cityid}}-{{$rone->city}}">{{$rone->city}}</option>    
-                                                    
-                                               @empty  
-                                                    
-                                                <option value="">Project Not Found..!</option>
-                                                    
-                                               @endforelse 
-                                                    
-                                                  
-                                                    
-                                                </select>
-@if ($errors->has('city'))
-<span style="color:red;">
-
-Error: {{ $errors->first('city') }}
-
-</span>
-@endif                                                 
-                                                
-                                            </div>    
-                                                
-                                            <div class="col-md-6">
-                                                <label>Taluka / Tehsil <span style="color:green;">(Optional)</span></label>
-                                                <input type="text" name="taluka" value="{{old('taluka')}}" class="form-control" placeholder="Taluka / Tehsil" required>
-                                                
-                                            </div>    
-                                            </div>     
-                                                
-                                            <div class="form-group">
+                                            </div> 
                                             
-                                            <div class="col-md-6">
+                                            <div class="form-group">
                                                 
-                                                <label>Union Council  <span style="color:green;">(Optional)</span></label>
-                                                <input type="text" name="uc" value="{{old('uc')}}" class="form-control" placeholder="Union Council " required>
+                                                <div class="col-md-6">
+                                                   <label>Category Description <span style="color:red;">*</span></label> 
+                                                    
+                                                    <textarea rows="8" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
+                                                    
+                                                </div>    
+                                                @if($errors->has('description'))
+                                                    <span style="color:red;">{{$errors->first('description')}}</span>
+                                                @endif
+                                            </div> 
+                                                
+                                                
                                                 
                                             </div>
-                                                
-                                             <div class="col-md-6">
-                                                
-                                                <label>Telephone Number  <span style="color:green;">(Optional)</span></label>
-                                                <input type="number" name="telephone" value="{{old('telephone')}}" class="form-control" placeholder="Telephone Number " required>
-                                                
-                                            </div>     
-                                                
-                                            </div>    
-                                                
-                                            <div class="form-group">
-                                            
-                                            <div class="col-md-6">
-                                                
-                                                <label>Location Focal Person Name <span style="color:green;">(Optional)</span></label>
-                                                <input type="text" name="focal" value="{{old('focal')}}" class="form-control" placeholder="Focal Person Name" required>
-                                                
-                                            </div>    
-                                            
-                                            <div class="col-md-6">
-                                                
-                                                <label>Focal Person Mobile Number  <span style="color:green;">(Optional)</span></label>
-                                                <input type="number" name="mobile" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number " required>
-                                                
-                                            </div>      
-                                                
-                                            </div>    
-                                              
-                                            <div class="form-group">
-                                                
-                                            <div class="col-md-12">
-                                                <label>Additional Information <span style="color:green;">(Optional)</span></label>
-                                                <textarea class="form-control" name="info" placeholder="Additonal Information">{{old('info')}}</textarea>
-                                                
-                                            </div>    
-                                                    
-                                            </div>    
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
                                                 
                                                 
                                                 
@@ -1066,16 +892,7 @@ Error: {{ $errors->first('city') }}
 
 
 
-@if($errors->has('cattitle') || $errors->has('shortdescription'))
 
-    <script> $("#mymodal").modal({
-
-            backdrop:'static',
-            keyboard:false
-
-        }); </script>
-
-@endif
 
 @endpush
 

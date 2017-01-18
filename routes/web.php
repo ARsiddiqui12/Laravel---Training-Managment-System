@@ -79,11 +79,17 @@ Route::group(['prefix'=>'training','middleware'=>'auth'],function(){
     
 Route::get('/addlocation','training@locationForm');    
     
+Route::post('/addlocation',['uses'=>'training@addLocation','as'=>'add.location']);    
     
+Route::get('/viewlocation','training@viewLocations');
+
+Route::get('/deletelocation/{id}','training@deleteLocation')->where('id','[0-9]+');    
     
+Route::get('/test','training@codeTest');    
     
+Route::get('/addcategory','training@categoryForm');
     
-    
+Route::post('/addCategory',['uses'=>'training@addCategory','as'=>'category.add']);    
     
     
     
