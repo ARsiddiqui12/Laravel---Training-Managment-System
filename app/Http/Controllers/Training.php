@@ -429,6 +429,135 @@ class Training extends Controller
     
     
     }
+
+
+    public function addMethod()
+    {
+
+
+    $project = DB::table('projectdetails')->where('status',1)->get();  
+
+    return view('addmethod',['title'=>'Training Method',
+                                  'project'=>$project   
+
+            ]);
+
+    }
+
+    public function methodSave(Request $request)
+    {
+
+        $validator= Validator::make($request->all(),[
+           'project'=>'required',
+           'method'=>'required',
+           'description'=>'required'        
+        ]);
+        
+        if($validator->Fails())
+        {
+            
+            return back()->withErrors($validator)->withInput($request->flashOnly('method','description'));
+            
+        }else{
+            
+            $project = $request->input('project');
+            $method  = $request->input('method');
+            $description = $request->input('description');
+            $userinfo = Auth::user();
+            $addedby = $userinfo->id."-".$userinfo->username;
+            $createdat = date('y-m-d h:i:s');
+            $methodid = rand(25000,30000);
+
+            $checkmethod = DB::table('trainingmethod')->where([
+
+                'project'=>$project,
+                'method'=>$method,
+                'status'=>1
+
+                ])->count();
+
+            if($checkmethod>0)
+            {
+
+            $validator->errors()->add('method', 'This Training Method is already exist...!');
+            
+            return back()->withErrors($validator)->withInput($request->flashOnly('method','description')); 
+
+            }else{
+
+
+             DB::table('trainingmethod')->insert([
+                
+                'methodid'=>$methodid,
+                'project'=>$project ,
+                'method'=> $method,
+                'description'=>$description ,
+                'addedby'=> $addedby,
+                'created_at'=> $createdat
+               
+                
+                
+            ]);    
+            
+            Session()->flash('successmsg','The Training Method Successfully Added...!');
+            
+            return back();    
+
+
+
+            }
+
+
+            }
+
+}
+
+    public function viewMethod()
+    {
+
+        $methods = DB::table('trainingmethod')->where('status',1)->get();
+
+        return view('viewmethods',[
+
+           'title'=>'View Training Method',
+           'methods'=> $methods
+
+            ]);
+
+    }
+
+    public function deleteMethod($id)
+    {
+
+    DB::table('trainingmethod')->where(['id'=>$id,'status'=>1])->update(['status'=>0]);
+    
+    Session()->flash('successmsg','Training Method deleted Successfully..!');    
+        
+    return back();  
+
+
+    }
+
+
+
+    public function addTrainerform()
+    {
+
+        $project = DB::table('projectdetails')->where('status',1)->get();  
+
+        return view('addtrainer',[
+
+            'title'=>'Trainer Registration',
+            'project'=>$project
+
+            ]);
+
+    }
+
+
+
+
+
     
     public function codeTest()
     {

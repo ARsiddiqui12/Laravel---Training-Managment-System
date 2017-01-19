@@ -101,7 +101,18 @@ Route::post('/addsubcategory',['uses'=>'training@addSubcategory','as'=>'subcateg
  
 Route::get('/viewsubcategory','training@viewSubcategory'); 
 
-Route::get('/deletesubcategory/{id}','training@deleteSubcategory')->where('id','[0-9]+');     
+Route::get('/deletesubcategory/{id}','training@deleteSubcategory')->where('id','[0-9]+'); 
+
+Route::get('/addmethod','training@addMethod');
+
+Route::post('/addmethod',['uses'=>'training@methodSave','as'=>'method.add']);
+
+Route::get('/viewmethod','training@viewMethod');
+
+Route::get('/deletemethod/{id}','training@deleteMethod')->where('id','[0-9]+');
+
+Route::get('/addtrainer','training@addTrainerform');
+
     
 });
 
