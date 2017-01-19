@@ -90,9 +90,18 @@ Route::get('/test','training@codeTest');
 Route::get('/addcategory','training@categoryForm');
     
 Route::post('/addCategory',['uses'=>'training@addCategory','as'=>'category.add']);    
+
+Route::get('/viewcategory','training@viewCategory');
+
+Route::get('/deletecategory/{id}','training@deleteCategory')->where('id','[0-9]+');    
+
+Route::get('/addsubcategory','training@subcategoryForm');    
     
-    
-    
+Route::post('/addsubcategory',['uses'=>'training@addSubcategory','as'=>'subcategory.add']);    
+ 
+Route::get('/viewsubcategory','training@viewSubcategory'); 
+
+Route::get('/deletesubcategory/{id}','training@deleteSubcategory')->where('id','[0-9]+');     
     
 });
 

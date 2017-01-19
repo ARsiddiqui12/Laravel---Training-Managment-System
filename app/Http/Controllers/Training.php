@@ -264,7 +264,7 @@ class Training extends Controller
             
             $expproject = explode("-",$request->input('project'));
             
-            $validator->errors()->add('category', 'This Category already exist...!');
+            $validator->errors()->add('category', 'This Category is already exist...!');
             
             return back()->withErrors($validator)->withInput($request->flashOnly('category','description'));
         
@@ -290,6 +290,144 @@ class Training extends Controller
             
         }
         
+    }
+    
+    
+    public function viewCategory()
+    {
+    
+    $trainingcategories = DB::table('trainingcategory')->where('status',1)->get();
+        
+    return view('viewtrainingcategories',[
+        
+        'title'=>'Training Categories',
+        'tcat'=> $trainingcategories
+        
+    ]) ;   
+    
+    }
+
+    public function deleteCategory($id)
+    {
+    
+    DB::table('trainingcategory')->where(['id'=>$id,'status'=>1])->update(['status'=>0]);
+    
+    Session()->flash('successmsg','Category deleted Successfully..!');    
+        
+    return back();    
+    
+    }
+        
+    
+    public function subcategoryForm()
+    {
+    
+    $project = DB::table('projectdetails')->where('status',1)->get();   
+        
+    $category = DB::table('trainingcategory')->where('status',1)->get();    
+        
+    return view('addsubcategory',[
+        
+       'title'=>'Training SubCategory',
+       'project'=>$project,
+       'category'=>$category
+        
+    ]);
+    
+    }
+    
+    public function addSubcategory(Request $request)
+    {
+    
+        $validator= Validator::make($request->all(),[
+           'project'=>'required',
+           'category'=>'required',
+            'subcategory'=>'required',
+           'description'=>'required'        
+        ]);
+
+        if($validator->Fails())
+        {
+            
+            return back()->withErrors($validator)->withInput($request->flashOnly('subcategory','description'));
+        
+        }else{
+            
+            $project = $request->input('project');
+            
+            $exp = explode("-",$request->input('category'));
+            
+            $expcategoryid = $exp[0];
+            
+            $expcategory = $exp[1];
+            
+            $subcategoryid = rand(15000,35000);
+            
+            $subcategory = $request->input('subcategory');
+            
+            $description = $request->input('description');
+            
+            $userinfo = Auth::user();
+            
+            $addedby = $userinfo->id."-".$userinfo->username;
+            
+            $createdat = date('y-m-d h:i:s');
+            
+            $checksubcat = DB::table('subcategory')->where(['project'=>$project,'category'=>$expcategory,'subcategory'=>$subcategory,'status'=>1])->count();
+            
+            if($checksubcat>0)
+            {
+                
+            $validator->errors()->add('subcategory', 'This Sub Category is already exist...!');
+            
+            return back()->withErrors($validator)->withInput($request->flashOnly('subcategory','description'));
+            
+            }else{            
+            DB::table('subcategory')->insert([
+                
+                'categoryid'=>$expcategoryid ,
+                'subcategoryid'=>$subcategoryid ,
+                'project'=> $project,
+                'category'=> $expcategory,
+                'subcategory'=> $subcategory,
+                'description'=>$description ,
+                'addedby'=> $addedby,
+                'created_at'=> $createdat
+               
+                
+                
+            ]);    
+            
+            Session()->flash('successmsg','The Sub Category Successfully Added...!');
+            
+            return back();
+            }
+
+        }
+    
+    }
+    
+    public function viewSubcategory()
+    {
+        $subcat = DB::table('subcategory')->where('status',1)->get();
+        
+        return view('viewsubcategory',['title'=>'View Sub Category',
+                                        'subcat'=>$subcat
+                                      
+                                      ]);
+        
+    }
+    
+    public function deleteSubcategory($id)
+    {
+    
+    DB::table('subcategory')->where(['id'=>$id,'status'=>1])->update(['status'=>0]);
+    
+    Session()->flash('successmsg','Sub Category deleted Successfully..!');    
+        
+    return back();    
+    
+    
     }
     
     public function codeTest()

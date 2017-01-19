@@ -2,18 +2,24 @@
 
 @push('css')
 
-<link href="{!! asset('theme/assets/global/plugins/select2/css/select2.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/select2/css/select2-bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}" rel="stylesheet" type="text/css" />
 
 
+        <link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
+        <link href="{!! asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')!!}" rel="stylesheet" type="text/css" />
+
+<style>
+.buttons-print,.buttons-excel,.buttons-copy,.buttons-csv,.buttons-pdf,.buttons-colvis {
+  background-color: #32c5d2 !important;
+  color: white !important;
+    border-color: white !important;
+}
+  
+</style>
 @endpush
 
 
-
 @section('content')
+
 
 
 
@@ -21,15 +27,15 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Add Training Category</h1>
+                <h1 style="text-transform: none;">View Training Categories List</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
                     </li>
                     <li>
-                        Training
+                        Project
                     </li>
-                    <li class="active">Add Category</li>
+                    <li class="active">Category List</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -46,191 +52,109 @@
             <!-- BEGIN SIDEBAR CONTENT LAYOUT -->
             <div class="page-content-container">
                 <div class="page-content-row">
-                    <!-- BEGIN PAGE SIDEBAR -->
-                    <div class="page-sidebar">
-                        <nav class="navbar" role="navigation">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <ul class="nav navbar-nav margin-bottom-35">
-                                <li class="active">
-                                    <a href="{{url('/home')}}">
-                                        <i class="icon-home"></i> Dashboard </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('/project/view')}}">
-                                        <i class="icon-bar-chart "></i> View Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-folder"></i> Project Categories </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-user "></i> Add Trainer </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-map-marker"></i> Add Targeted Place </a>
-                                </li>
-                            </ul>
-<!--
-                            <h3>Quick Actions</h3>
-                            <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-envelope "></i> Inbox
-                                        <label class="label label-danger">New</label>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-paper-clip "></i> Task </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-star"></i> Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-pin"></i> Events
-                                        <span class="badge badge-success">2</span>
-                                    </a>
-                                </li>
-                            </ul>
--->
-                        </nav>
-                    </div>
-                    <!-- END PAGE SIDEBAR -->
-                    <div class="page-content-col">
+                    
+                   
                         <!-- BEGIN PAGE BASE CONTENT -->
 
                         <div class="row">
                             <div class="col-md-12">
+                                
+                                 @if(Session('successmsg'))
+
+                                            <div class="form-body">
+                                            <div class="alert alert-success" role="alert" style="font-style: italic;">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                
+                                                Success: {{ Session('successmsg') }}</div>
+                                            </div>
+
+                                        @endif
+                                
                                 <!-- BEGIN VALIDATION STATES-->
                                 <div class="portlet light portlet-fit portlet-form bordered" id="form_wizard_1">
                                     <div class="portlet-title">
                                         <div class="caption">
                                             <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Training Category</span>
+                                            <span class="caption-subject font-green sbold uppercase">View Training Categories</span>
                                         </div>
 
                                     </div>
-                                    <div class="portlet-body">
-                                        @if(Session('successmsg'))
-
-                                            <div class="form-body">
-                                            <div class="alert alert-success" role="alert" style="font-style: italic;">Success: {{ Session('successmsg') }}</div>
-                                            </div>
-
-                                        @endif
-                                        
-                                        
-                                       
-
-                                        <!-- BEGIN FORM-->
-                                        <form action="{{route('category.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                            
-                                            {{ csrf_field() }}
-                                            
-                                            <div class="form-body">
-                                            
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    <label>Select Project <span style="color:red;">*</span></label>
-                                                    <select class="form-control" name="project" required>
-                                                    
-                                                        <option value="" selected>Select Project</option>
-                                                        
-                                                        @forelse($project as $row)
-                                                        
-                                                        <option value="{{$row->projectid}}-{{$row->title}}">{{$row->title}}</option>
-                                                        
-                                                        @empty
-                                                        
-                                                        <option value="">Record not found...!</option>
-                                                        
-                                                        @endforelse
-                                                    </select>
-                                                    
-                                                    @if($errors->has('project'))
-                                                    <span style="color:red;">{{$errors->first('project')}}</span>
-                                                    @endif
-                                                    
-                                                </div>    
-                                                
-                                            </div>    
-                                                
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    
-                                                    <label>Category <span style="color:red;">*</span></label>
-                                                   
-                                                    <input type="text" name="category" class="form-control" value="{{old('category')}}" placeholder="Training Main Category" >
-                                                @if($errors->has('category'))
-                                                    <span style="color:red;">{{$errors->first('category')}}</span>
-                                                    @endif    
-                                                </div>    
-                                                
-                                            </div> 
-                                            
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                   <label>Category Description <span style="color:red;">*</span></label> 
-                                                    
-                                                    <textarea rows="8" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
-                                                    
-                                                </div>    
-                                                @if($errors->has('description'))
-                                                    <span style="color:red;">{{$errors->first('description')}}</span>
-                                                @endif
-                                            </div> 
+<div class="portlet-body" style="padding:10px;">
                                                 
                                                 
-                                                
-                                            </div>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                 
-                                                
-                                               
-
-                                                
-                                                
-                                             
-
-
-
-                                                
-                                                
-                                                
-                                            </div>
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-offset-3 col-md-9">
-                                                        <button type="submit" class="btn green">Submit</button>
-                                                        <button type="reset" class="btn default">Cancel</button>
+                                                <div class="table-toolbar">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="btn-group">
+    <a href="{{url('training/addcategory')}}"  class="btn sbold green"> Add New
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        <!-- END FORM-->
-                                    </div>
+    
+                                            
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Project Name </th>
+                                                            <th> Category </th>
+                                                            <th> Description </th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($tcat as $record)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+        
+    <td><?php $exp=explode("-",$record->project); ?>{{$exp[1]}} </td>
+    
+    <td>{{$record->category}}</td>
+    <td>{{$record->description}}</td>
+    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-danger deletecategory" id="{{$record->id}}">Delete
+    <i class="fa fa-trash"></i>
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table>
+                                            </div>                                    
                                 </div>
                                 <!-- END VALIDATION STATES-->
                             </div>
@@ -239,7 +163,7 @@
                         
                         
                         <!-- END PAGE BASE CONTENT -->
-                    </div>
+                   
                 </div>
             </div>
             <!-- END SIDEBAR CONTENT LAYOUT -->
@@ -258,42 +182,42 @@
     </div>
     <!-- END CONTAINER -->
     <!-- BEGIN QUICK SIDEBAR -->
-    <a href="javascript:;" class="page-quick-sidebar-toggler">
+    <a href="#" class="page-quick-sidebar-toggler">
         <i class="icon-login"></i>
     </a>
     <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
         <div class="page-quick-sidebar">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users
+                    <a href="#" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users
                         <span class="badge badge-danger">2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;" data-target="#quick_sidebar_tab_2" data-toggle="tab"> Alerts
+                    <a href="#" data-target="#quick_sidebar_tab_2" data-toggle="tab"> Alerts
                         <span class="badge badge-success">7</span>
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> More
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> More
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-bell"></i> Alerts </a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-info"></i> Notifications </a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-speech"></i> Activities </a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-settings"></i> Settings </a>
                         </li>
                     </ul>
@@ -404,7 +328,7 @@
                     <div class="page-quick-sidebar-item">
                         <div class="page-quick-sidebar-chat-user">
                             <div class="page-quick-sidebar-nav">
-                                <a href="javascript:;" class="page-quick-sidebar-back-to-list">
+                                <a href="#" class="page-quick-sidebar-back-to-list">
                                     <i class="icon-arrow-left"></i>Back</a>
                             </div>
                             <div class="page-quick-sidebar-chat-user-messages">
@@ -412,7 +336,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> When could you send me the report ? </span>
                                     </div>
@@ -421,7 +345,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> Its almost done. I will be sending it shortly </span>
                                     </div>
@@ -430,7 +354,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> Alright. Thanks! :) </span>
                                     </div>
@@ -439,7 +363,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:16</span>
                                         <span class="body"> You are most welcome. Sorry for the delay. </span>
                                     </div>
@@ -448,7 +372,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> No probs. Just take your time :) </span>
                                     </div>
@@ -457,7 +381,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:40</span>
                                         <span class="body"> Alright. I just emailed it to you. </span>
                                     </div>
@@ -466,7 +390,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> Great! Thanks. Will check it right away. </span>
                                     </div>
@@ -475,7 +399,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:40</span>
                                         <span class="body"> Please let me know if you have any comment. </span>
                                     </div>
@@ -484,7 +408,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> Sure. I will check and buzz you if anything needs to be corrected. </span>
                                     </div>
@@ -529,7 +453,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -620,7 +544,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -663,7 +587,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -754,7 +678,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -818,7 +742,101 @@
         </div>
     </div>
     <!-- END QUICK SIDEBAR -->
-    
+    <!-- BEGIN QUICK NAV -->
+    <nav class="quick-nav">
+        <a class="quick-nav-trigger" href="#0">
+            <span aria-hidden="true"></span>
+        </a>
+        <ul>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank" class="active">
+                    <span>Purchase Metronic</span>
+                    <i class="icon-basket"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
+                    <span>Customer Reviews</span>
+                    <i class="icon-users"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/showcast/" target="_blank">
+                    <span>Showcase</span>
+                    <i class="icon-user"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
+                    <span>Changelog</span>
+                    <i class="icon-graph"></i>
+                </a>
+            </li>
+        </ul>
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav>
+    <div class="quick-nav-overlay"></div>
+
+
+    <div class="modal fade" id="mymodal" tabindex="-1" backdrop="static" keyboard="false" role="dialog">
+
+    <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><strong>Add Project Category</strong></h4>
+    </div>
+
+    <div class="modal-body">
+        @if ($errors->has('cattitle'))
+            <div class="alert alert-danger" role="alert" style="font-style: italic;">Error: {{ $errors->first('cattitle') }}</div>
+        @endif
+        @if ($errors->has('shortdescription'))
+            <div class="alert alert-danger" role="alert" style="font-style: italic;">Error: {{ $errors->first('shortdescription') }}</div>
+        @endif
+    <form action="{{ route('pcat.add') }}" method="post" >
+
+        <div class="form-group">
+            {{ csrf_field() }}
+            <label><strong>Title</strong></label>
+            <input type="text" name="cattitle" class="form-control" placeholder="Enter Project Category Title" required>
+
+        </div>
+        
+        <div class="form-group">
+        <label><strong>Short Description</strong></label>
+            
+        <textarea name="shortdescription" class="form-control" required></textarea>
+        
+        </div>
+        <div class="form-group">
+
+            <button type="submit" class="btn btn-info">Add</button>
+
+
+        </div>
+    </form>
+    </div>
+
+    <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -854,45 +872,47 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @push('js')
 
-<script src="{!! asset('theme/assets/global/plugins/select2/js/select2.full.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/jquery-validation/js/jquery.validate.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/jquery-validation/js/additional-methods.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/ckeditor/ckeditor.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-markdown/lib/markdown.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/pages/scripts/form-validation.min.js')!!}" type="text/javascript"></script>
 
+<script src="{!! asset('theme/assets/global/scripts/datatable.js')!!}" type="text/javascript"></script>
 
+<script src="{!! asset('theme/assets/global/plugins/datatables/datatables.min.js')!!}" type="text/javascript"></script>
 
-<!--<script src="{!! asset('theme/assets/global/plugins/morris/morris.min.js')!!}" type="text/javascript"></script>-->
+<script src="{!!asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')!!}" type="text/javascript"></script>
 
+<script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
 
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+    $('#sample_1').DataTable({
+        
+         "pageLength": 10,
+         dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print','colvis'
+        ]
+        
+        
+    });
+        
+    $(".deletecategory").click(function(){
+        
+    var catid =$(this).attr("id");
+    
+    var deletecat =confirm("Are you sure you want to Delete this Category ?");
+        
+    if(deletecat==true)
+    {
+        window.location.href="{{url('training/deletecategory/')}}/"+catid;
+    }
+        
+    });  
+        
+        
+});
 
-
-
+</script>
 
 @endpush
-

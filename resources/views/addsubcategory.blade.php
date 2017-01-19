@@ -21,7 +21,7 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Add Training Category</h1>
+                <h1 style="text-transform: none;">Add Training Sub Category</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
@@ -29,7 +29,7 @@
                     <li>
                         Training
                     </li>
-                    <li class="active">Add Category</li>
+                    <li class="active">Add Sub Category</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -111,7 +111,7 @@
                                     <div class="portlet-title">
                                         <div class="caption">
                                             <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Training Category</span>
+                                            <span class="caption-subject font-green sbold uppercase">Add new Training Sub Category</span>
                                         </div>
 
                                     </div>
@@ -128,7 +128,7 @@
                                        
 
                                         <!-- BEGIN FORM-->
-                                        <form action="{{route('category.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="{{route('subcategory.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                             
                                             {{ csrf_field() }}
                                             
@@ -167,7 +167,22 @@
                                                     
                                                     <label>Category <span style="color:red;">*</span></label>
                                                    
-                                                    <input type="text" name="category" class="form-control" value="{{old('category')}}" placeholder="Training Main Category" >
+                                                    <select class="form-control" name="category" required>
+                                                    
+                                                        <option value="" selected>Select Project</option>
+                                                        
+                                                        @forelse($category as $row)
+                                                        
+                                                        <option value="{{$row->categoryid}}-{{$row->category}}">{{$row->category}}</option>
+                                                        
+                                                        @empty
+                                                        
+                                                        <option value="">Record not found...!</option>
+                                                        
+                                                        @endforelse
+                                                    </select>
+                                                    
+                                                    
                                                 @if($errors->has('category'))
                                                     <span style="color:red;">{{$errors->first('category')}}</span>
                                                     @endif    
@@ -175,17 +190,32 @@
                                                 
                                             </div> 
                                             
+                                                
+                                            <div class="form-group">
+                                                
+                                                <div class="col-md-6">
+                                                   <label>SubCategory <span style="color:red;">*</span></label> 
+                                                    
+                                                    <input type="text" value="{{old('subcategory')}}" class="form-control" placeholder="Sub Category" name="subcategory" required>
+                                                     @if($errors->has('subcategory'))
+                                                    <span style="color:red;">{{$errors->first('subcategory')}}</span>
+                                                @endif
+                                                </div>    
+                                               
+                                            </div> 
+                                                
+                                                
                                             <div class="form-group">
                                                 
                                                 <div class="col-md-6">
                                                    <label>Category Description <span style="color:red;">*</span></label> 
                                                     
                                                     <textarea rows="8" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
-                                                    
-                                                </div>    
-                                                @if($errors->has('description'))
+                                                    @if($errors->has('description'))
                                                     <span style="color:red;">{{$errors->first('description')}}</span>
                                                 @endif
+                                                </div>    
+                                                
                                             </div> 
                                                 
                                                 
