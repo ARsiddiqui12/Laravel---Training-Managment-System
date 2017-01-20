@@ -8,6 +8,9 @@
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') !!}" rel="stylesheet" type="text/css" />
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}" rel="stylesheet" type="text/css" />
 
+<link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
+        <link href="{!! asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')!!}" rel="stylesheet" type="text/css" />
+
 
 @endpush
 
@@ -158,7 +161,7 @@
 
                                              <div class="col-md-6">
                                                 <br> <label>Home / Office Address  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="dob" required="required">
+                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="address" required="required">
                                              
                                                 @if($errors->has('address'))
                                                 <span style="color:red;">{{$errors->first('address')}}</span>
@@ -169,7 +172,7 @@
 
                                              <div class="col-md-6">
                                                 <br> <label>Mobile Number  <span style="color:red;">*</span></label>
-                                              <input type="Number" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" >
+                                              <input type="Number" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" required="required">
                                              
                                                 @if($errors->has('mobile'))
                                                 <span style="color:red;">{{$errors->first('mobile')}}</span>
@@ -180,8 +183,10 @@
 
                                              <div class="col-md-6">
                                                 <br> <label>Email Address  <span style="color:green;">( Optional )</span></label>
-                                              <input type="Number" value="{{old('email')}}" class="form-control" placeholder="Email Address" name="email" >
-                                             
+                                              <input type="email" value="{{old('email')}}" class="form-control" placeholder="Email Address" name="email" >
+                                             @if($errors->has('email'))
+                                                <span style="color:red;">{{$errors->first('email')}}</span>
+                                                @endif
                                              
 
                                              </div>
@@ -206,18 +211,26 @@
 
                                              <div class="col-md-6">
 
-                                                 <label>Profession / Job <span style="color:red;">*</span></label><a href="#" class="pull-right">Add Profession</a>
+                                                 <label>Profession / Job <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#profession" data-backdrop="static" data-kyeboard="false">Add Profession</a>
                                                 
                                                 <select class="form-control" name="profession" required>
                                                     
                                                     <option value="" selected>Select Profession</option>
 
+                                                    @forelse($getprofession as $job)
+
+                                                    <option value="{{$job->id}}-{{$job->profession}}">{{$job->profession}}</option>
+
+                                                    @empty
+
                                                     <option value="">Record not Found..!</option>
+
+                                                    @endforelse
 
                                                 </select>
 
-                                                @if($errors->has('gender'))
-                                                <span style="color:red;">{{$errors->first('gender')}}</span>
+                                                @if($errors->has('profession'))
+                                                <span style="color:red;">{{$errors->first('profession')}}</span>
                                                 @endif    
 
                                              </div>
@@ -248,7 +261,7 @@
 
                                                 <br> <label>Trainer Level <span style="color:red;">*</span></label>
                                                 
-                                                <select class="form-control" name="trainertype" required>
+                                                <select class="form-control" name="trainerlevel" required>
                                                     
                                                     <option value="" selected>Select Trainer Level</option>
 
@@ -258,8 +271,8 @@
 
                                                 </select>
 
-                                                @if($errors->has('trainertype'))
-                                                <span style="color:red;">{{$errors->first('trainertype')}}</span>
+                                                @if($errors->has('trainerlevel'))
+                                                <span style="color:red;">{{$errors->first('trainerlevel')}}</span>
                                                 @endif    
 
                                              </div> 
@@ -267,18 +280,21 @@
 
                                              <div class="col-md-6">
                                                <br> <label>Primary Language  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('planguage')}}" class="form-control" placeholder="Primery Language" name="planguage" required="required">
+                                              <input type="text" value="{{old('primarylanguage')}}" class="form-control" placeholder="Primery Language" name="primarylanguage" required="required">
                                              
-                                                @if($errors->has('planguage'))
-                                                <span style="color:red;">{{$errors->first('planguage')}}</span>
+                                                @if($errors->has('primarylanguage'))
+                                                <span style="color:red;">{{$errors->first('primarylanguage')}}</span>
                                                 @endif    
 
                                              </div>
 
                                              <div class="col-md-6">
                                                <br> <label>Secondary Languages  <span style="color:green;">( Optional )</span></label>
-                                              <input type="text" value="{{old('slanguage')}}" class="form-control" placeholder="Secondary Languages ( Sindhi, English, Punjabi )" name="slanguage">
+                                              <input type="text" value="{{old('secondarylanguage')}}" class="form-control" placeholder="Secondary Languages ( Sindhi, English, Punjabi )" name="secondarylanguage">
                                              
+                                             @if($errors->has('secondarylanguage'))
+                                                <span style="color:red;">{{$errors->first('secondarylanguage')}}</span>
+                                                @endif 
                                                  
 
                                              </div>
@@ -305,18 +321,26 @@
                                                    <option value="" selected>Select Project</option>
 
                                                </select>  
-                                             
+                                                
+                                                @if($errors->has('project'))
+                                                <span style="color:red;">{{$errors->first('project')}}</span>
+                                                @endif 
                                                  
                                                <br>
                                              </div>
 
                                              <div class="col-md-6">
 
-                                               <label>Reporting Office  <span style="color:red;">*</span></label><a href="#" class="pull-right">Select</a>
-                                               <input type="text" name="Office" placeholder="Select Reporting Office" class="form-control" readonly="readonly" required>
+                                               <label>Reporting Office  <span style="color:red;">*</span></label>
+                                               <a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
+                                               <input type="text" name="Office" placeholder="Select Reporting Office" class="form-control" value="" id="officename" readonly="readonly" required>
+                                               @if($errors->has('office'))
+                                                <span style="color:red;">{{$errors->first('Office')}}</span>
+                                                @endif
                                              <br>
                                              </div>
-
+                                             <input type="hidden" name="officecode" id="officecode" value="">
+                                             <input type="hidden" name="officeaddress" id="officeaddress" value="">
 
 
 
@@ -947,12 +971,172 @@
     
 
 
+<!-- Add Profession Start -->
+
+
+
+
+<div class="modal fade" id="profession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Add a new Profession</strong></h4>
+      </div>
+      <form method="post" action="{{route('profession.add')}}">
+      {{ csrf_field() }}
+      <div class="modal-body">
+
+      @if(Session('profession'))
+
+      <div class="alert alert-success">Success: {{Session('profession')}}</div>
+
+      @endif
+      
+        <div class="form-group">
+            <label>Profession<span style="color: red;">*</span></label>
+            <input type="text" name="profession" placeholder="Profession" required="required" class="form-control">
+            <span style="font-size: 12px;color:green; ">Spelling must be Accurate</span>
+            @if($errors->has('profession'))
+            <span style="color:red;">{{$errors->first('profession')}}</span>
+            @endif
+        </div>
+        <div class="form-group">
+            <label>Additional Info <span style="color: green;">( Optional )</span></label>
+            <textarea name="info" placeholder="Additional Information About Profession" class="form-control">
+            </textarea>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+<!-- Add profession end -->
+
+
+
+
+<!-- Select Office -->
+
+
+
+<div class="modal fade" id="office" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Select Project Office</strong></h4>
+      </div>
+
+      <div class="modal-body">
+
+       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Office Id </th>
+                                                            <th> Office </th>
+                                                            <th> Address </th>
+                                
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($office as $record)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+        
+    <td>{{$record->branchcode}}</td>
+    
+    <td>{{$record->branch}}</td>
+    <td>
+    {{$record->address}}, <?php 
+    $country = explode("-", $record->country);
+    $state = explode("-", $record->state);
+    $city = explode("-", $record->city); ?>
+    {{$country[1]." / ".$state[1]." / ".$city[1]}}
+    </td>    
+   
+    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-info selecter" id="{{$record->branchcode}}" name="{{$record->branch}}" address="{{$record->address}}, {{$country[1]." / ".$state[1]." / ".$city[1]}}"><i class="fa fa-check"></i> Select 
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table> 
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Select office -->
 
 
 
@@ -1012,6 +1196,63 @@
 <script src="{!! asset('theme/assets/pages/scripts/form-validation.min.js')!!}" type="text/javascript"></script>
 
 
+<script src="{!! asset('theme/assets/global/plugins/datatables/datatables.min.js')!!}" type="text/javascript"></script>
+
+<script src="{!!asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')!!}" type="text/javascript"></script>
+
+<script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    
+$(document).ready(function(){
+
+
+
+
+$('#sample_1').DataTable({
+        
+         
+        "pageLength": 12,
+             
+        
+    });
+
+$(".selecter").click(function(){
+
+var branchcode = $(this).attr("id");
+var branch = $(this).attr("name");
+var address = $(this).attr("address");
+
+$("#officename").val(branch);
+
+$("#officecode").val(branchcode);
+
+$("#officeaddress").val(address);
+
+$("#office").modal('hide');
+
+
+});
+
+
+
+@if(Session('profession') || $errors->has('profession'))
+
+$("#profession").modal({
+
+backdrop:'static',
+kyeboard:false
+
+});
+
+@endif
+
+
+
+});
+
+
+</script>
 
 <!--<script src="{!! asset('theme/assets/global/plugins/morris/morris.min.js')!!}" type="text/javascript"></script>-->
 

@@ -12,6 +12,10 @@ use DB;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\profession;
+
+use App\office;
+
 class Training extends Controller
 {
     
@@ -543,19 +547,65 @@ class Training extends Controller
     public function addTrainerform()
     {
 
-        $project = DB::table('projectdetails')->where('status',1)->get();  
+        $project = DB::table('projectdetails')->where('status',1)->get(); 
+
+        $office = office::where('status',1)->get();
+
+        $getprofession = profession::where('status',1)->get();
 
         return view('addtrainer',[
 
             'title'=>'Trainer Registration',
-            'project'=>$project
+            'project'=>$project,
+            'getprofession'=>$getprofession,
+            'office'=>$office
 
             ]);
 
     }
 
 
+    public function addProfession(Request $request)
+    {
 
+        $validator = Validator::make($request->all(),[
+
+            'profession'=>'required|unique:profession'
+
+            ]);
+
+        if($validator->Fails())
+        {
+
+            return back()->withErrors($validator)->withInput($request->flashOnly('profession','info'));
+
+        }else
+        {
+
+            $profession = $request->input('profession');
+
+            $info = $request->input('info');
+
+            $userinfo = Auth::user();
+
+            $addedby = $userinfo->id."-".$userinfo->username;
+
+            $obj = new profession();
+
+            $obj->profession = $profession;
+
+            $obj->info = $info;
+
+            $obj->addedby = $addedby ;
+
+            $obj->save();
+
+            Session()->flash('profession','This ['.$profession.'] Added Successfully...!');
+
+            return back();
+        }
+
+    }
 
 
     

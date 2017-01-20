@@ -113,6 +113,8 @@ Route::get('/deletemethod/{id}','training@deleteMethod')->where('id','[0-9]+');
 
 Route::get('/addtrainer','training@addTrainerform');
 
+Route::post('addprofession',['uses'=>'training@addProfession','as'=>'profession.add']);
+
     
 });
 
