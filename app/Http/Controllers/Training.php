@@ -16,6 +16,7 @@ use App\profession;
 
 use App\office;
 
+use App\trainer;
 class Training extends Controller
 {
     
@@ -607,6 +608,100 @@ class Training extends Controller
 
     }
 
+
+    public function addTrainer(Request $request)
+    {
+
+        $validator = Validator::make($request->all(),[
+
+                'trainername'=>'required',
+                'surname'=>'required',
+                'cnic'=>'required|unique:trainer',
+                'dateofbirth'=>'required',
+                'gender'=>'required',
+                'address'=>'required',
+                'mobile'=>'required',
+                'email'=>'unique:trainer',
+                'qualification'=>'required',
+                'profession'=>'required',
+                'trainertype'=>'required',
+                'trainerlevel'=>'required',
+                'primarylanguage'=>'required',
+                'project'=>'required',
+                'reportingoffice'=>'required'
+
+            ],[
+
+            'cnic.unique'=>'This Trainer Already Exist...!',
+            'email.unique'=>'Email already Exist..!'
+
+            ]);
+
+
+        if($validator->Fails())
+        {
+
+            return back()->withErrors($validator)->withInput($request->flashOnly('trainername','surname','cnic','dateofbirth','address','mobile','email','qualification','primarylanguage','secondarylanguage','info','reportingoffice','officecode','officeaddress'));
+
+        }else
+        {
+
+            $userinfo = Auth::user();
+
+            $addedby = $userinfo->id."-".$userinfo->username;
+
+            $trainer = new trainer();
+
+            $trainer->trainername = $request->input('trainername');
+
+            $trainer->surname = $request->input('surname');
+
+            $trainer->cnic = $request->input('cnic');
+
+            $trainer->dateofbirth = $request->input('dateofbirth');
+
+            $trainer->gender = $request->input('gender');
+
+            $trainer->address = $request->input('address');
+
+            $trainer->mobile = $request->input('mobile');
+
+            $trainer->email = $request->input('email');
+
+            $trainer->qualification = $request->input('qualification');
+
+            $trainer->profession = $request->input('profession');
+
+            $trainer->trainertype = $request->input('trainertype');
+
+            $trainer->trainerlevel = $request->input('trainerlevel');
+
+            $trainer->primarylanguage = $request->input('primarylanguage');
+
+            $trainer->secondarylanguage = $request->input('secondarylanguage');
+
+            $trainer->info = $request->input('info');
+
+            $trainer->project = $request->input('project');
+
+            $trainer->reportingoffice = $request->input('reportingoffice');
+
+            $trainer->officecode = $request->input('officecode');
+
+            $trainer->officeaddress = $request->input('officeaddress');
+
+            $trainer->addedby = $addedby;
+
+            $trainer->save();
+
+            Session()->flash('successmsg','This Trainer ['.$request->input('trainername').' '.$request->input('surname').'] Added Successfully...!');
+
+            return back();
+
+        }
+
+
+    }
 
     
     public function codeTest()

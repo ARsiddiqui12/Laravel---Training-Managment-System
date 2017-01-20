@@ -79,7 +79,7 @@
                                       
 
                                         <!-- BEGIN FORM-->
-                                        <form action="{{route('method.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="{{route('trainer.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                             
                                             {{ csrf_field() }}
                                             
@@ -98,10 +98,10 @@
 
                                              <div class="col-md-6">
                                                <label>Trainer Name <span style="color:red;">*</span></label>   
-                                             <input type="text" value="{{old('name')}}" class="form-control" placeholder="Trainer Name" name="name" required="required">
+                                             <input type="text" value="{{old('trainername')}}" class="form-control" placeholder="Trainer Name" name="trainername" required="required">
                                              
-                                                @if($errors->has('name'))
-                                                <span style="color:red;">{{$errors->first('name')}}</span>
+                                                @if($errors->has('trainername'))
+                                                <span style="color:red;">{{$errors->first('trainername')}}</span>
                                                 @endif   
                                                 
                                              </div>
@@ -130,10 +130,10 @@
 
                                              <div class="col-md-6">
                                                 <br> <label>Date Of Birth <span style="color:red;">*</span></label>
-                                              <input type="Number" value="{{old('dob')}}" class="form-control" placeholder="Date Of Birth" name="dob" required="required">
+                                              <input type="Number" value="{{old('dateofbirth')}}" class="form-control" placeholder="Date Of Birth" name="dateofbirth" required="required">
                                              
-                                                @if($errors->has('dob'))
-                                                <span style="color:red;">{{$errors->first('dob')}}</span>
+                                                @if($errors->has('dateofbirth'))
+                                                <span style="color:red;">{{$errors->first('dateofbirth')}}</span>
                                                 @endif    
 
                                              </div> 
@@ -302,7 +302,8 @@
 
                                              <div class="col-md-12">
                                                <br> <label>Additional Information  <span style="color:green;">( Optional )</span></label>
-                                              <textarea value="{{old('info')}}" class="form-control" placeholder="Additional Information" name="info" >
+                                              <textarea  class="form-control" placeholder="Additional Information" name="info" >
+                                              {{old('info')}}
                                              </textarea>
                                                    
 
@@ -320,6 +321,16 @@
                                                <select class="form-control" name="project" required="required">
                                                    <option value="" selected>Select Project</option>
 
+                                                   @forelse($project as $recordtwo)
+
+                                                   <option value="{{$recordtwo->id}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
+
+                                                   @empty
+
+                                                   <option value="">Record Not Found..!</option>
+
+                                                   @endforelse
+
                                                </select>  
                                                 
                                                 @if($errors->has('project'))
@@ -333,14 +344,14 @@
 
                                                <label>Reporting Office  <span style="color:red;">*</span></label>
                                                <a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
-                                               <input type="text" name="Office" placeholder="Select Reporting Office" class="form-control" value="" id="officename" readonly="readonly" required>
-                                               @if($errors->has('office'))
-                                                <span style="color:red;">{{$errors->first('Office')}}</span>
+                                               <input type="text" name="reportingoffice" placeholder="Select Reporting Office" class="form-control" value="{{old('reportingoffice')}}" id="officename" readonly="readonly" required>
+                                               @if($errors->has('reportingoffice'))
+                                                <span style="color:red;">{{$errors->first('reportingoffice')}}</span>
                                                 @endif
                                              <br>
                                              </div>
-                                             <input type="hidden" name="officecode" id="officecode" value="">
-                                             <input type="hidden" name="officeaddress" id="officeaddress" value="">
+                                             <input type="hidden" name="officecode" id="officecode" value="{{old('officecode')}}">
+                                             <input type="hidden" name="officeaddress" id="officeaddress" value="{{old('officeaddress')}}">
 
 
 
@@ -1218,6 +1229,8 @@ $('#sample_1').DataTable({
     });
 
 $(".selecter").click(function(){
+
+$("#officename").val('');
 
 var branchcode = $(this).attr("id");
 var branch = $(this).attr("name");

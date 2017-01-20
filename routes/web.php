@@ -115,6 +115,8 @@ Route::get('/addtrainer','training@addTrainerform');
 
 Route::post('addprofession',['uses'=>'training@addProfession','as'=>'profession.add']);
 
+Route::post('/addtrainer',['uses'=>'training@addTrainer','as'=>'trainer.add']);
+
     
 });
 
