@@ -120,28 +120,36 @@
 
                                              <div class="col-md-6">
                                                  <br><label>CNIC Number <span style="color:red;">*</span></label>
-                                              <input type="Number" value="{{old('cnic')}}" class="form-control" placeholder="CNIC Number" name="cnic" required="required">
+                                              <input type="text" value="{{old('cnic')}}" class="form-control" placeholder="CNIC Number" name="cnic" id="cnic" required="required">
                                              
                                                 @if($errors->has('cnic'))
                                                 <span style="color:red;">{{$errors->first('cnic')}}</span>
                                                 @endif    
 
                                              </div> 
-
+                                             <div class="form-group">
                                              <div class="col-md-6">
-                                                <br> <label>Date Of Birth <span style="color:red;">*</span></label>
-                                              <input type="Number" value="{{old('dateofbirth')}}" class="form-control" placeholder="Date Of Birth" name="dateofbirth" required="required">
                                              
+                                                <br> <label>Date Of Birth <span style="color:red;">*</span></label>
+                                            
+                                              <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+            <input type="text" class="form-control" placeholder="Date Of Birth" value="{{old('dateofbirth')}}" name="dateofbirth" required="required">
+            <span class="input-group-btn">
+            <button class="btn default" type="button">
+            <i class="fa fa-calendar"></i>
+            </button>
+            </span>
+            </div>
                                                 @if($errors->has('dateofbirth'))
                                                 <span style="color:red;">{{$errors->first('dateofbirth')}}</span>
                                                 @endif    
-
+                                                </div>
                                              </div> 
 
 
                                              <div class="col-md-6">
 
-                                                <br> <label>Gender <span style="color:red;">*</span></label>
+                                                <label>Gender <span style="color:red;">*</span></label>
                                                 
                                                 <select class="form-control" name="gender" required>
                                                     
@@ -160,7 +168,7 @@
                                              </div> 
 
                                              <div class="col-md-6">
-                                                <br> <label>Home / Office Address  <span style="color:red;">*</span></label>
+                                                <label>Home / Office Address  <span style="color:red;">*</span></label>
                                               <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="address" required="required">
                                              
                                                 @if($errors->has('address'))
@@ -172,7 +180,7 @@
 
                                              <div class="col-md-6">
                                                 <br> <label>Mobile Number  <span style="color:red;">*</span></label>
-                                              <input type="Number" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" required="required">
+                                              <input type="text" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" id="mask_phone" required="required">
                                              
                                                 @if($errors->has('mobile'))
                                                 <span style="color:red;">{{$errors->first('mobile')}}</span>
@@ -1213,12 +1221,18 @@
 
 <script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
 
+
+ <script src="{!! asset('theme/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}" type="text/javascript"></script>
+<script src="{!! asset('theme/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') !!}" type="text/javascript"></script>
+
 <script type="text/javascript">
     
 $(document).ready(function(){
 
 
+$("#mask_phone").inputmask("9999-9999999");
 
+$("#cnic").inputmask("99999-9999999-9");
 
 $('#sample_1').DataTable({
         
