@@ -210,6 +210,10 @@
                                                 
 
                                                 </select>
+
+                                                <label style="color:red;" id="categoryerror">Category not found in Selected Project please contact to "<b>System Admin</b>".</label>
+
+
                                                 @if($errors->has('category'))
                                                 <span style="color:red;">{{$errors->first('category')}}</span>
                                                 @endif    
@@ -225,6 +229,8 @@
 
                                                 
                                                 </select>
+                                                <label id="subcaterror" style="color:red;">Sub-Category not found please contact to "<b>System Admin</b>".</label>
+
                                                 @if($errors->has('subcategory'))
                                                 <span style="color:red;">{{$errors->first('subcategory')}}</span>
                                                 @endif    
@@ -246,6 +252,7 @@
 
                                                 </select>
 
+                                                <label style="color:red;" id="methoderror">Training Method not found in Selected Project please contact to "<b>System Admin</b>".</label>
                                                 @if($errors->has('trainingmethod'))
                                                 <span style="color:red;">{{$errors->first('trainingmethod')}}</span>
                                                 @endif    
@@ -1568,6 +1575,16 @@
 $(document).ready(function(){
 
 
+
+  $("#subcaterror").hide();
+
+  $("#methoderror").hide();
+
+  $("#categoryerror").hide();
+
+
+
+
     $("#trainingform").validate({
 
 
@@ -1646,11 +1663,22 @@ $.ajax({
     datatype: 'JSON',
     success: function (resp) {
 
+      if(resp=="false")
+      {
+
+        $("#categoryerror").show();
+
+      }else{
+
+        $("#categoryerror").hide();
+
        $.each(resp.category,function(key, value){
 
         $("#maincategory").append('<option value='+value.categoryid+' class="optcategory">'+ value.category+'</option>');
 
        });
+
+       }
 
     }
 
@@ -1665,11 +1693,22 @@ $.ajax({
     datatype: 'JSON',
     success: function (resp) {
 
+        if(resp=="false")
+        {
+
+          $("#methoderror").show();
+
+        }else{
+
+          $("#methoderror").hide();
+
        $.each(resp.result,function(key, value){
 
         $("#method").append('<option value='+value.methodid+' class="optmethod">'+ value.method+'</option>');
 
        });
+
+       }
 
     }
 
@@ -1699,19 +1738,28 @@ $.ajax({
     success: function (resp) {
 
 
+
+      if(resp=="false")
+      {
+
+        $("#subcaterror").show();
+
+      }else{
       
+      $("#subcaterror").hide();
+
        $.each(resp.subcat,function(key, value){
 
-        
-
-          $("#subcategory").append('<option value='+value.subcategoryid+' class="optsubcategory">'+ value.subcategory+'</option>');
-
-
-        
-
-        
+       $("#subcategory").append('<option value='+value.subcategoryid+' class="optsubcategory">'+ value.subcategory+'</option>');
 
        });
+
+       }
+
+
+
+
+
 
     }
 

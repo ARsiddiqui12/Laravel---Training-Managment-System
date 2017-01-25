@@ -752,7 +752,12 @@ class Training extends Controller
 
         $category = Trainingcategories::where(['project'=>$projectid,'status'=>1])->get();
 
-        if($request->ajax())
+        $count = $category->count();
+
+        if($count>0)
+        {
+
+            if($request->ajax())
         {
 
             return response()->json([
@@ -761,6 +766,14 @@ class Training extends Controller
 
                 ]);
         }
+
+
+        }else{
+
+            return "false";
+        }
+
+        
 
     }
 
@@ -772,6 +785,10 @@ class Training extends Controller
         
         $result = Trainingmethod::where(['project'=>$projectid,'status'=>1])->get();
 
+        $count = $result->count();
+
+        if($count>0)
+        {
         if($request->ajax())
         {
 
@@ -781,6 +798,11 @@ class Training extends Controller
 
                 ]);
         }
+    }else{
+
+        return "false";
+
+    }
 
     }
 
@@ -811,15 +833,10 @@ class Training extends Controller
         }else{
 
 
-            return response()->json([
-
-                'customerror'=>array('Record Not Found..!')
-
-                ]);
+            return "false";
 
 
         }
-
         
 
     }
@@ -983,6 +1000,10 @@ class Training extends Controller
                 'addedby'=> $addedby
 
                 ]);
+
+            Session()->flash('successmsg','This Training [ '.$trainingtitle.' ] Added Successfully...!');
+
+            return back();
 
 
         }
