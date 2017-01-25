@@ -17,6 +17,18 @@ use App\profession;
 use App\office;
 
 use App\trainer;
+
+use App\project;
+
+use App\Trainingcategories;
+
+use App\Subcategory;
+
+use App\Trainingmethod;
+
+use App\Location;
+
+
 class Training extends Controller
 {
     
@@ -301,7 +313,7 @@ class Training extends Controller
     public function viewCategory()
     {
     
-    $trainingcategories = DB::table('trainingcategory')->where('status',1)->get();
+    $trainingcategories = DB::table('trainingcategory')->join('projectdetails','trainingcategory.project','=','projectdetails.projectid')->where('trainingcategory.status',1)->get();
         
     return view('viewtrainingcategories',[
         
@@ -414,7 +426,7 @@ class Training extends Controller
     
     public function viewSubcategory()
     {
-        $subcat = DB::table('subcategory')->where('status',1)->get();
+        $subcat = DB::table('subcategory')->join('projectdetails','subcategory.project','=','projectdetails.projectid')->where('subcategory.status',1)->get();
         
         return view('viewsubcategory',['title'=>'View Sub Category',
                                         'subcat'=>$subcat
@@ -520,7 +532,7 @@ class Training extends Controller
     public function viewMethod()
     {
 
-        $methods = DB::table('trainingmethod')->where('status',1)->get();
+        $methods = DB::table('trainingmethod')->join('projectdetails','trainingmethod.project','=','projectdetails.projectid')->where('trainingmethod.status',1)->get();
 
         return view('viewmethods',[
 
@@ -697,6 +709,281 @@ class Training extends Controller
             Session()->flash('successmsg','This Trainer ['.$request->input('trainername').' '.$request->input('surname').'] Added Successfully...!');
 
             return back();
+
+        }
+
+
+    }
+
+    public function viewTrainers()
+    {
+
+        $trainer = trainer::where('status',1)->get();
+
+        return view('viewtrainers',['title'=>'Trainers List','trainer'=>$trainer]);
+
+    }
+
+
+    public function viewSingletrainer($id)
+    {
+
+        $trainer = trainer::where(['id'=>$id,'status'=>1])->get();
+
+        return view('viewsingletrainer',['title','View Trainer','trainer'=>$trainer]);
+
+    }
+
+    public function deleteTrainer($id)
+    {
+
+       trainer::where(['id'=>$id,'status'=>1])->update(['status'=>0]);
+       
+       Session()->flash('successmsg','Trainer Deleted Successfully...!');
+
+       return back(); 
+
+    }
+
+    public function getcategorybyProject(Request $request)
+    {
+
+        $projectid = $request->input('projectid');
+
+        $category = Trainingcategories::where(['project'=>$projectid,'status'=>1])->get();
+
+        if($request->ajax())
+        {
+
+            return response()->json([
+
+                   'category'=>$category 
+
+                ]);
+        }
+
+    }
+
+    public function getMethodbyproject(Request $request)
+    {
+
+        $projectid = $request->input('projectid');
+
+        
+        $result = Trainingmethod::where(['project'=>$projectid,'status'=>1])->get();
+
+        if($request->ajax())
+        {
+
+            return response()->json([
+
+                   'result'=>$result 
+
+                ]);
+        }
+
+    }
+
+    public function getSubcategorybyproject(Request $request)
+    {
+
+        $catid  = $request->input('catid');
+
+        $subcat = Subcategory::where(['categoryid'=>$catid,'status'=>1])->get();
+
+        $count = $subcat->count();
+
+        if($count>0)
+        {
+
+            if($request->ajax())
+        {
+
+            return response()->json([
+
+                'subcat'=>$subcat
+
+                ]);
+
+        }
+
+
+        }else{
+
+
+            return response()->json([
+
+                'customerror'=>array('Record Not Found..!')
+
+                ]);
+
+
+        }
+
+        
+
+    }
+
+    public function trainingForm()
+    {
+        $office = office::where('status',1)->get();
+
+        $project = project::where('status',1)->get();
+
+        $location = Location::where('status',1)->get();
+
+        $trainer = trainer::where('status',1)->get();
+
+        return view('addtraining',['title','Training Registration',
+                                    'office'=>$office,
+                                    'project'=>$project,
+                                    'location'=>$location,
+                                    'trainer'=>$trainer
+                                    
+                                    ]);
+    }
+
+
+    public function addTraining(Request $request)
+    {
+
+
+        $validator = Validator::make($request->all(),[
+
+
+            'projectname'=>'required',
+            'projectid'=>'required',
+            'office'=>'required',
+            'officecode'=>'required',
+            'address'=>'required',
+            'csc'=>'required',
+            'trainingtitle'=>'required',
+            'category'=>'required',
+            'subcategory'=>'required',
+            'trainingmethod'=>'required',
+            'location'=>'required',
+            'locationaddress'=>'required',
+            'locationarea'=>'required',
+            'startdate'=>'required',
+            'enddate'=>'required',
+            'length'=>'required',
+            'numberofparticipants'=>'required',
+            'trainerone'=>'required'
+            
+            ]);
+
+
+        if($validator->Fails())
+        {
+
+            $values = $request->flashOnly('projectname',
+                                          'projectid',
+                                          'office',
+                                          'officecode',
+                                          'address',
+                                          'csc',
+                                          'trainingtitle',
+                                          'location',
+                                          'locationaddress',
+                                          'locationarea',
+                                          'startdate',
+                                          'enddate',
+                                          'length',
+                                          'numberofparticipants',
+                                          'trainerone',
+                                          'trainertwo',
+                                          'trainerthree',
+                                          'trainerfour',
+                                          'info'
+                                         );
+
+            return back()->withErrors($validator)->withInput($values);
+
+        }else{
+
+            $project = $request->input('projectname');
+
+            $projectid = $request->input('projectid');
+
+            $reportingoffice = $request->input('office');
+
+            $officecode = $request->input('officecode');
+
+            $officeaddress = $request->input('address');
+
+            $exp = explode("/", $request->input('csc'));
+
+            $country = $exp[0];
+
+            $state = $exp[1];
+            
+            $city = $exp[2];
+
+            $trainingtitle = $request->input('trainingtitle');
+
+            $category = $request->input('category');
+
+            $subcategory = $request->input('subcategory');
+
+            $trainingmethod = $request->input('trainingmethod');
+
+            $location = $request->input('location');
+
+            $locationaddress  = $request->input('locationaddress');
+
+            $locationarea = $request->input('locationarea');
+
+            $startdate = $request->input('startdate');
+
+            $enddate = $request->input('enddate');
+
+            $length = $request->input('length');
+
+            $numberofparticipants = $request->input('numberofparticipants');
+
+            $trainerone = $request->input('trainerone');
+
+            $trainertwo = $request->input('trainertwo');
+
+            $trainerthree = $request->input('trainerthree');
+
+            $trainerfour = $request->input('trainerfour');
+
+            $info = $request->input('info');
+
+            $userinfo = Auth::user();
+
+            $addedby = $userinfo->id."-".$userinfo->username;
+
+            Trainingmodel::create([
+
+                'project'=> $project,
+                'projectid'=> $projectid,
+                'reportingoffice'=> $reportingoffice,
+                'officecode'=> $officecode,
+                'officeaddress'=> $officeaddress,
+                'officecountry'=> $country,
+                'officestate'=> $state,
+                'officecity'=> $city,
+                'trainingtitle'=> $trainingtitle,
+                'category'=> $category,
+                'subcategory'=> $subcategory,
+                'trainingmethod'=> $trainingmethod,
+                'traininglocation'=> $location,
+                'locationaddress'=> $locationaddress.", ".$locationarea,
+                'startdate'=> $startdate,
+                'enddate'=> $enddate,
+                'traininglength'=> $length,
+                'numberofparticipants'=> $numberofparticipants,
+                'trainerone'=> $trainerone,
+                'trainertwo'=> $trainertwo,
+                'trainerthree'=> $trainerthree,
+                'trainerfour'=> $trainerfour,
+                'info'=> $info,
+                'addedby'=> $addedby
+
+                ]);
+
 
         }
 

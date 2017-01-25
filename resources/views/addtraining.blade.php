@@ -8,6 +8,20 @@
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') !!}" rel="stylesheet" type="text/css" />
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}" rel="stylesheet" type="text/css" />
 
+<link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
+        <link href="{!! asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')!!}" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+  
+  label.error{
+
+    color:red;
+    padding: 0px;
+    margin: 0px;
+  }
+
+</style>        
+
 
 @endpush
 
@@ -21,7 +35,7 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Add Training Category</h1>
+                <h1 style="text-transform: none;">Training Registration Form</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
@@ -29,7 +43,7 @@
                     <li>
                         Training
                     </li>
-                    <li class="active">Add Category</li>
+                    <li class="active">Add Training</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -46,75 +60,23 @@
             <!-- BEGIN SIDEBAR CONTENT LAYOUT -->
             <div class="page-content-container">
                 <div class="page-content-row">
-                    <!-- BEGIN PAGE SIDEBAR -->
-                    <div class="page-sidebar">
-                        <nav class="navbar" role="navigation">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <ul class="nav navbar-nav margin-bottom-35">
-                                <li class="active">
-                                    <a href="{{url('/home')}}">
-                                        <i class="icon-home"></i> Dashboard </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('/project/view')}}">
-                                        <i class="icon-bar-chart "></i> View Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-folder"></i> Project Categories </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-user "></i> Add Trainer </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-map-marker"></i> Add Targeted Place </a>
-                                </li>
-                            </ul>
-<!--
-                            <h3>Quick Actions</h3>
-                            <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-envelope "></i> Inbox
-                                        <label class="label label-danger">New</label>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-paper-clip "></i> Task </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-star"></i> Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-pin"></i> Events
-                                        <span class="badge badge-success">2</span>
-                                    </a>
-                                </li>
-                            </ul>
--->
-                        </nav>
-                    </div>
-                    <!-- END PAGE SIDEBAR -->
+                    
                     <div class="page-content-col">
                         <!-- BEGIN PAGE BASE CONTENT -->
 
                         <div class="row">
+
                             <div class="col-md-12">
                                 <!-- BEGIN VALIDATION STATES-->
                                 <div class="portlet light portlet-fit portlet-form bordered" id="form_wizard_1">
                                     <div class="portlet-title">
                                         <div class="caption">
                                             <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Training Category</span>
+                                            <span class="caption-subject font-green sbold uppercase">Add new Training</span>
                                         </div>
 
                                     </div>
+                                    
                                     <div class="portlet-body">
                                         @if(Session('successmsg'))
 
@@ -125,112 +87,404 @@
                                         @endif
                                         
                                         
-                                       
+                                      
 
                                         <!-- BEGIN FORM-->
-                                        <form action="{{route('category.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="{{route('training.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal" id="trainingform">
                                             
                                             {{ csrf_field() }}
                                             
-                                            <div class="form-body">
+                                            <div class="form-body" style="padding: 0px !important;">
                                             
                                             <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    <label>Select Project <span style="color:red;">*</span></label>
-                                                    <select class="form-control" name="project" required>
-                                                    
-                                                        <option value="" selected>Select Project</option>
-                                                        
-                                                        @forelse($project as $row)
-                                                        
-                                                        <option value="{{$row->projectid}}">{{$row->title}}</option>
-                                                        
-                                                        @empty
-                                                        
-                                                        <option value="">Record not found...!</option>
-                                                        
-                                                        @endforelse
-                                                    </select>
-                                                    
-                                                    @if($errors->has('project'))
-                                                    <span style="color:red;">{{$errors->first('project')}}</span>
-                                                    @endif
-                                                    
-                                                </div>    
-                                                
-                                            </div>    
-                                                
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    
-                                                    <label>Category <span style="color:red;">*</span></label>
-                                                   
-                                                    <input type="text" name="category" class="form-control" value="{{old('category')}}" placeholder="Training Main Category" >
-                                                @if($errors->has('category'))
-                                                    <span style="color:red;">{{$errors->first('category')}}</span>
-                                                    @endif    
-                                                </div>    
-                                                
-                                            </div> 
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8" style="border:1px solid #eef1f5; padding:10px;">
                                             
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                   <label>Category Description <span style="color:red;">*</span></label> 
-                                                    
-                                                    <textarea rows="8" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
-                                                    
-                                                </div>    
-                                                @if($errors->has('description'))
-                                                    <span style="color:red;">{{$errors->first('description')}}</span>
-                                                @endif
-                                            </div> 
-                                                
-                                                
-                                                
+                                            <div class="row">
+                                            <div class="col-md-12">
+                                                <br>
+                                                <h3 style="margin:0px;">Project Information</h3>
+                                                <hr>
+
                                             </div>
+                                            </div>
+
+                                            <div class="row">
+                                             <div class="col-md-6">
+                                               <label>Project Name<span style="color:red;">*</span></label><a href="javascript:;"  data-toggle="modal" data-target="#projectselector"  data-backdrop="static" data-keyboard="false" class="pull-right">Select</a>   
+ <input type="text" class="form-control readonly"  placeholder="Select Project" name="projectname" id="projectname" value="{{old('projectname')}}" required readonly>
+                                             
+                                                @if($errors->has('projectname'))
+                                                <span style="color:red;">{{$errors->first('projectname')}}</span>
+                                                @endif   
                                                 
+                                             </div>
+                                             
+                                             <div class="col-md-6">
+                                                 <label>Project Code <span style="color:green;"><sup>Auto</sup></span></label>
+ <input type="text" value="{{old('projectid')}}" class="form-control" placeholder="Project Code" id="projectid" name="projectid" required="required" readonly="readonly">
+                                             
+                                                @if($errors->has('projectid'))
+                                                <span style="color:red;">{{$errors->first('projectid')}}</span>
+                                                @endif    
+
+                                             </div>   
+                                             </div>
+
+                                             <div class="row">
+                                             <div class="col-md-6">
+                                                 <br><label>Select Reporting Office <span style="color:red;">*</span></label>
+                                                 <a href="javascript:;" id="selectproject" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#officeselector" class="pull-right">Select</a>  
+                                              <input type="text" value="{{old('office')}}" class="form-control" placeholder="Select Reporting Office" name="office" id="officename" required="required" readonly="readonly">
+                                             
+                                                @if($errors->has('office'))
+                                                <span style="color:red;">{{$errors->first('office')}}</span>
+                                                @endif    
+
+                                             </div> 
+                                             
+                                             <div class="col-md-6">
+                                             
+                                                <br> <label>Office / Branch Code <span style="color:green;"><sup>Auto</sup></label>
+                                            
+                                            
+            <input type="text" class="form-control" placeholder="Office / Branch Code" value="{{old('officecode')}}" name="officecode" id="officecode" required="required" readonly="readonly">
+            
+                                                @if($errors->has('officecode'))
+                                                <span style="color:red;">{{$errors->first('officecode')}}</span>
+                                                @endif    
+                                                </div>
+                                           </div>
+
+                                                <div class="row">
+                                             <div class="col-md-6">
+
+                                                <br><label>Office Address <span style="color:green;"><sup>Auto</sup></label>
                                                 
+                                             <input type="text" name="address" placeholder="Address" value="{{old('address')}}" class="form-control" id="officeaddress" required="required" readonly="readonly"> 
+
+                                                @if($errors->has('address'))
+                                                <span style="color:red;">{{$errors->first('address')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             <div class="col-md-6">
+                                                <br><label>Country / State / City  <span style="color:green;"><sup>Auto</sup></label>
+                                              <input type="text" value="{{old('csc')}}" class="form-control" placeholder="Country / State / City" name="csc" id="officecity" required="required" readonly="readonly">
+                                             
+                                                @if($errors->has('csc'))
+                                                <span style="color:red;">{{$errors->first('csc')}}</span>
+                                                @endif    
+
+                                             </div>
+                                             </div>
+                                             <div class="row">
+                                             <div class="col-md-12"><hr>
+                                                <h3 style="margin:0px;">Training Information</h3>
                                                 
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                 
-                                                
+                                             </div>
+                                             </div>
+                                             <div class="row">
+                                             <div class="col-md-12"><br>
                                                
+                                             Training Title <span style="color:red;">*</span></label>
+                                              <input type="text" value="{{old('trainingtitle')}}" class="form-control" placeholder="Training Title" name="trainingtitle" required="required">
+                                             
+                                                @if($errors->has('trainingtitle'))
+                                                <span style="color:red;">{{$errors->first('trainingtitle')}}</span>
+                                                @endif    
+
+                                             </div>
+                                             </div>
+
+
+                                             <div class="row">
+
+                                             <div class="col-md-6">
+                                                <br><label>Category <span style="color:red;">*</span></label>
+                                                <select class="form-control" id="maincategory" name="category" required="required">
+                                                
+                                                <option value="" selected="selected">Select Category</option>  
 
                                                 
+
+                                                </select>
+                                                @if($errors->has('category'))
+                                                <span style="color:red;">{{$errors->first('category')}}</span>
+                                                @endif    
+
+                                             </div>
+
+
+                                             <div class="col-md-6">
+                                                <br><label>Sub-Category <span style="color:red;">*</span></label>
+                                                <select class="form-control" id="subcategory" name="subcategory" required="required">
                                                 
+                                                <option value="" selected="selected">Select Sub-Category</option>  
+
+                                                
+                                                </select>
+                                                @if($errors->has('subcategory'))
+                                                <span style="color:red;">{{$errors->first('subcategory')}}</span>
+                                                @endif    
+
+                                             </div>
+
+                                             </div>
+
+                                             <div class="row">
+                                             <div class="col-md-6">
+
+                                                <br> <label>Training Method <span style="color:red;">*</span></label>
+                                                
+                                                <select class="form-control" id="method" name="trainingmethod" required>
+                                                    
+                                                    <option value="" selected>Select Training Method</option>
+
+                                                    
+
+                                                </select>
+
+                                                @if($errors->has('trainingmethod'))
+                                                <span style="color:red;">{{$errors->first('trainingmethod')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+
+                                             <div class="col-md-6">
+
+                                                <br> <label>Training Location <span style="color:red;">*</span></label><a href="javascript:;" id="" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#locationselector" class="pull-right">Select</a>   
+                                                
+                                                <input type="text" name="location" value="{{old('location')}}" readonly="readonly" required="required" id="locationname" placeholder="Training Location" class="form-control">
+
+                                                @if($errors->has('location'))
+                                                <span style="color:red;">{{$errors->first('location')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             </div>
+
+                                             <div class="row">
+
+                                             <div class="col-md-6">
+
+                                                <br> <label>Location Address <span style="color:green;"><sup>Auto</sup></span></label>
+                                                <input type="text" name="locationaddress" id="locationaddress" value="{{old('locationaddress')}}" readonly="readonly" placeholder="Training Location Address" class="form-control">
+
+                                                @if($errors->has('locationaddress'))
+                                                <span style="color:red;">{{$errors->first('locationaddress')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             <div class="col-md-6">
+
+                                                <br> <label>Location Country / State / City <span style="color:green;"><sup>Auto</sup></span></label>
+                                                <input type="text" name="locationarea" id="locationarea" value="{{old('locationarea')}}" readonly="readonly" placeholder="Location Country / State / City" class="form-control">
+                                                <input type="hidden" id="locationid" value="{{old('locationid')}}" name="locationid">
+                                                @if($errors->has('locationarea'))
+                                                <span style="color:red;">{{$errors->first('locationarea')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             </div>
+
+
+
+                                             <div class="row">
+                                             <div class="col-md-6">
+                                               <br> 
+
+                                               <label>Training Starting Date</label>    
+                                
+            <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+            <input type="text" class="form-control" placeholder="Training Starting Date" name="startdate" required="required">
+            <span class="input-group-btn">
+            <button class="btn default" type="button">
+            <i class="fa fa-calendar"></i>
+            </button>
+            </span>
+            </div>
+
+
+                                                @if($errors->has('startdate'))
+                                                <span style="color:red;">{{$errors->first('startdate')}}</span>
+                                                @endif    
+
+                                             </div>
+
+                                             <div class="col-md-6">
+                                               <br> 
+
+                                               <label>Training Ending Date</label>    
+                                
+                                 <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+            <input type="text" class="form-control" placeholder="Training Ending Date" name="enddate" required>
+            <span class="input-group-btn">
+            <button class="btn default" type="button">
+            <i class="fa fa-calendar"></i>
+            </button>
+            </span>
+            </div>
+                                             
+                                             @if($errors->has('enddate'))
+                                                <span style="color:red;">{{$errors->first('enddate')}}</span>
+                                                @endif 
+                                                 
+
+                                             </div>
+                                             </div>
+                                             <div class="row">
+                                             <div class="col-md-6">
+                                                 <br><label>Training Length <span style="color:red;">*</span></label>
+                                              <input type="text" value="{{old('length')}}" class="form-control" placeholder="5 Hours / Days / Weeks" name="length" required="required" >
+                                             
+                                                @if($errors->has('length'))
+                                                <span style="color:red;">{{$errors->first('length')}}</span>
+                                                @endif    
+
+                                             </div>  
+
+                                             <div class="col-md-6">
+                                                 <br><label>Number Of Participants<span style="color:red;">*</span></label>
+                                              <input type="text" value="{{old('numberofparticipants')}}" class="form-control" placeholder="Number Of Participants" name="numberofparticipants" required="required" >
+                                             
+                                                @if($errors->has('numberofparticipants'))
+                                                <span style="color:red;">{{$errors->first('numberofparticipants')}}</span>
+                                                @endif    
+
+                                             </div> 
+                                             </div>
+                                             <div class="row">
+                                             <div class="col-md-12">
+                                                <hr>
+                                                <h3 style="margin:0px;">Trainers Information</h3>
+                                                
+
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-6">
+
+                                                <br><label>Trainer One <span style="color:red;">*</span></label>
+                                                <a href="javascript:;" id="1" data-backdrop="static" data-keyboard="false"  class="pull-right trainermodalbtn">Select</a>   
+  <input type="text" name="trainerone" id="trainerone" placeholder="Trainer One" value="{{old('trainerone')}}" class="form-control" required="required" readonly="readonly"> 
+
+                                                @if($errors->has('trainerone'))
+                                                <span style="color:red;">{{$errors->first('trainerone')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             <div class="col-md-6">
+
+                                                <br><label>Trainer Two <span style="color:green;">( Optional )</span></label>
+                                                
+                                                <a href="javascript:;" id="2" data-backdrop="static" data-keyboard="false"  class="pull-right trainermodalbtn">Select</a>  
+
+                                             <input type="text" name="trainertwo" id="trainertwo" placeholder="Trainer Two ( Optional )" value="{{old('trainertwo')}}" class="form-control"  readonly="readonly"> 
+
+                                                @if($errors->has('trainertwo'))
+                                                <span style="color:red;">{{$errors->first('trainertwo')}}</span>
+                                                @endif    
+
+                                             </div> 
+                                             </div>
+
+                                             <div class="row">
+
+                                             <div class="col-md-6">
+
+                                                <br><label>Trainer Three <span style="color:green;">( Optional )</span></label>
+                                                
+                                                <a href="javascript:;" id="3" data-backdrop="static" data-keyboard="false"  class="pull-right trainermodalbtn">Select</a>   
+
+
+                                             <input type="text" name="trainerthree" id="trainerthree" placeholder="Trainer Three ( Optional )" value="{{old('trainerthree')}}" class="form-control"  readonly="readonly"> 
+
+                                                @if($errors->has('trainerthree'))
+                                                <span style="color:red;">{{$errors->first('trainerthree')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             <div class="col-md-6">
+
+                                                <br><label>Trainer Four <span style="color:green;">( Optional )</span></label>
+                                                
+                                                <a href="javascript:;" id="4" data-backdrop="static" data-keyboard="false"  class="pull-right trainermodalbtn">Select</a>  
+
+
+                                             <input type="text" name="trainerfour" id="trainerfour" placeholder="Trainer Three ( Optional )" value="{{old('trainerfour')}}" class="form-control"  readonly="readonly"> 
+
+                                                @if($errors->has('trainerfour'))
+                                                <span style="color:red;">{{$errors->first('trainerfour')}}</span>
+                                                @endif    
+
+                                             </div> 
+
+                                             </div>
+
+                                             <div class="row">
+                                             <div class="col-md-12">
+                                               <br> <label>Additional Information <span style="color:green;">( Optional )</span></label>
+                                              <textarea class="form-control" placeholder="Describe About Training Organizers , Trainers and Participants" name="info"></textarea>
+
+                                             </div>
+                                             </div>
+
+                                            
+
+
+                                              
+
+
+
                                              
 
 
 
-                                                
-                                                
-                                                
+
+
+
+
+
+
+
+
+
+
                                             </div>
+                                            <div class="col-md-2"></div>
+                                            </div>    
+
+
+
+
+                                            </div>
+                                                
+                                                
+                         
+                                            
                                             <div class="form-actions">
                                                 <div class="row">
-                                                    <div class="col-md-offset-3 col-md-9">
-                                                        <button type="submit" class="btn green">Submit</button>
+                                                    <div class="col-md-12"><center>
+                                                        <button type="submit" class="btn green">Register</button>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
                                                         <button type="reset" class="btn default">Cancel</button>
+                                                        </center>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
+                                        
+                                        </div>
                                         <!-- END FORM-->
-                                    </div>
+                                   
                                 </div>
                                 <!-- END VALIDATION STATES-->
                             </div>
@@ -821,6 +1075,86 @@
     
 
 
+<!-- Add Profession Start -->
+
+
+
+
+<div class="modal fade" id="projectselector" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Select Project</strong></h4>
+      </div>
+      
+      <div class="modal-body">
+
+
+       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Project Category </th>
+                                                            <th> Project Id </th>
+                                                            <th> Project Name </th>
+                                
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($project as $recordone)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+    <td><?php $projectcate = explode("-", $recordone->projectcate); ?>{{$projectcate[1]}}</td>
+    <td>{{$recordone->projectid}}</td>
+    <td>{{$recordone->title}}</td>    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-info projectselectbtn" id="{{$recordone->projectid}}" name="{{$recordone->title}}"><i class="fa fa-check"></i> Select 
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table> 
+      
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
 
 
@@ -832,6 +1166,339 @@
 
 
 
+
+
+
+
+
+<!-- Add profession end -->
+
+
+
+
+<!-- Select Office -->
+
+
+
+<div class="modal fade" id="officeselector" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><strong>Select Project Office</strong></h4>
+      </div>
+
+      <div class="modal-body">
+
+       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Office Id </th>
+                                                            <th> Office </th>
+                                                            <th> Address </th>
+                                
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($office as $record)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+        
+    <td>{{$record->branchcode}}</td>
+    
+    <td>{{$record->branch}}</td>
+    <td>
+    {{$record->address}}, <?php 
+    $country = explode("-", $record->country);
+    $state = explode("-", $record->state);
+    $city = explode("-", $record->city); ?>
+    {{$country[1]." / ".$state[1]." / ".$city[1]}}
+    </td>    
+   
+    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-info officeselectorbtn" id="{{$record->branchcode}}" name="{{$record->branch}}" address="{{$record->address}}" area="{{$country[1].' / '.$state[1].' / '.$city[1]}}"><i class="fa fa-check"></i> Select 
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table> 
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- Select office -->
+
+
+<!-- Select Training Location -->
+
+
+<div class="modal fade" id="locationselector" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+
+        <strong>Select Training Location</strong>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{url('training/addlocation')}}" class="btn btn-info "><i class="fa fa-plus"></i> Add New</a>
+
+
+        </h4>
+        
+      </div>
+
+      <div class="modal-body">
+
+       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Location Name </th>
+                                                            <th> Location Category </th>
+                                                            <th> Address </th>
+                                
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($location as $record)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+        
+    <td>{{$record->location}}</td>
+    
+    <td>{{$record->category}}</td>
+    <td>
+    {{$record->address}}, <?php 
+    $country = explode("-", $record->country);
+    $state = explode("-", $record->state);
+    $city = explode("-", $record->city); ?>
+    {{$country[1]." / ".$state[1]." / ".$city[1]}}
+    </td>    
+   
+    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-info locationselectorbtn" id="{{$record->locationid}}" name="{{$record->location}}" address="{{$record->address}}" area="{{$country[1].' / '.$state[1].' / '.$city[1]}}"><i class="fa fa-check"></i> Select 
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table> 
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Select Training Location -->
+
+
+
+<!-- Select Trainer -->
+
+
+
+
+<div class="modal fade" tabindex="-1" id="trainermodal" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+
+        <strong>Select Trainer</strong>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{url('training/addtrainer')}}" class="btn btn-info "><i class="fa fa-plus"></i> Add New</a>
+
+
+        </h4>
+        
+      </div>
+
+      <div class="modal-body">
+<input type="hidden" id="tid">
+       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                S.No
+                                                            </th>
+                                                            <th> Trainer Name </th>
+                                                            <th> Trainer Type </th>
+                                                            <th> Trainer Level </th>
+                                                            <th>Reporting Office</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($trainer as $record)
+    
+    <tr class="odd gradeX">
+        
+    <td>{{$var}}</td>
+        
+    <td>{{$record->trainername." ".$record->surname}}</td>
+    
+    <td>{{$record->trainertype}}</td>
+
+    <td>{{$record->trainerlevel}}</td>
+    <td>
+    {{$record->reportingoffice}},{{$record->officeaddress}}
+    </td>    
+   
+    
+    <td>
+    <div class="btn-group">
+    <button class="btn btn-xs btn-info trainerselectorbtn" id="{{$record->trainername.' '.$record->surname}}"><i class="fa fa-check"></i> Select 
+    </button>
+    
+    </div>
+                                                            </td>
+                                                        </tr>
+    
+    <?php $var++; ?>
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table> 
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Select Trainer -->
 
 
 
@@ -886,6 +1553,301 @@
 <script src="{!! asset('theme/assets/pages/scripts/form-validation.min.js')!!}" type="text/javascript"></script>
 
 
+<script src="{!! asset('theme/assets/global/plugins/datatables/datatables.min.js')!!}" type="text/javascript"></script>
+
+<script src="{!!asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')!!}" type="text/javascript"></script>
+
+<script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
+
+
+ <script src="{!! asset('theme/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}" type="text/javascript"></script>
+<script src="{!! asset('theme/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') !!}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    
+$(document).ready(function(){
+
+
+    $("#trainingform").validate({
+
+
+      submitHandler: function(form) {
+    $(form).ajaxSubmit();
+  }
+
+
+    });
+
+// $("#mask_phone").inputmask("9999-9999999");
+
+// $("#cnic").inputmask("99999-9999999-9");
+
+
+
+
+$('#sample_1').DataTable({
+        
+         
+        "pageLength": 12,
+             
+        
+    });
+
+$('#sample_2').DataTable({
+        
+         
+        "pageLength": 12,
+             
+        
+    });
+
+$('#sample_3').DataTable({
+        
+         
+        "pageLength": 12,
+             
+        
+    });
+
+$('#sample_4').DataTable({
+        
+         
+        "pageLength": 12,
+             
+        
+    });
+
+$(".projectselectbtn").click(function(){
+
+$(".optcategory").remove();
+
+$(".optmethod").remove();
+
+var projectid = $(this).attr("id");
+
+var projectname = $(this).attr("name");
+
+$("#projectid").val(projectid);
+
+$("#projectname").val(projectname);
+
+$("#projectselector").modal('hide');
+
+token = $('input[name=_token]').val();
+
+var data = {projectid: projectid};
+
+$.ajax({
+
+    url:'{{route('category.get')}}',
+    headers: {'X-CSRF-TOKEN': token},
+    data: data,
+    type: 'POST',
+    datatype: 'JSON',
+    success: function (resp) {
+
+       $.each(resp.category,function(key, value){
+
+        $("#maincategory").append('<option value='+value.categoryid+' class="optcategory">'+ value.category+'</option>');
+
+       });
+
+    }
+
+});
+
+$.ajax({
+
+    url:'{{route('method.get')}}',
+    headers: {'X-CSRF-TOKEN': token},
+    data: data,
+    type: 'POST',
+    datatype: 'JSON',
+    success: function (resp) {
+
+       $.each(resp.result,function(key, value){
+
+        $("#method").append('<option value='+value.methodid+' class="optmethod">'+ value.method+'</option>');
+
+       });
+
+    }
+
+});
+
+
+
+});
+
+
+
+$("#maincategory").change(function(){
+
+$(".optsubcategory").remove();
+
+var catid = $("#maincategory option:selected").val();
+
+var data = {catid: catid};
+
+$.ajax({
+
+    url:'{{route('subcategory.get')}}',
+    headers: {'X-CSRF-TOKEN': token},
+    data: data,
+    type: 'POST',
+    datatype: 'JSON',
+    success: function (resp) {
+
+
+      
+       $.each(resp.subcat,function(key, value){
+
+        
+
+          $("#subcategory").append('<option value='+value.subcategoryid+' class="optsubcategory">'+ value.subcategory+'</option>');
+
+
+        
+
+        
+
+       });
+
+    }
+
+});
+
+
+});
+
+
+
+
+$(".officeselectorbtn").click(function(){
+
+
+
+var branchcode = $(this).attr("id");
+var branch = $(this).attr("name");
+var address = $(this).attr("address");
+var area = $(this).attr("area");
+
+$("#officename").val(branch);
+
+$("#officecode").val(branchcode);
+
+$("#officeaddress").val(address);
+
+$("#officecity").val(area);
+
+$("#officeselector").modal('hide');
+
+
+});
+
+
+
+$(".locationselectorbtn").click(function(){
+
+
+var locationid = $(this).attr("id");
+var location = $(this).attr("name");
+var address = $(this).attr("address");
+var area = $(this).attr("area");
+
+$("#locationid").val(locationid);
+
+$("#locationname").val(location);
+
+$("#locationaddress").val(address);
+
+$("#locationarea").val(area);
+
+$("#locationselector").modal('hide');
+
+
+
+});
+
+
+
+
+
+$(".trainermodalbtn").click(function(){
+
+var trainerid = $(this).attr("id");
+
+$("#tid").val(trainerid);
+
+$("#trainermodal").modal('show');
+
+});
+
+
+$(".trainerselectorbtn").click(function(){
+
+var tid = $("#tid").val();
+
+var trainername = $(this).attr("id");
+
+switch(tid)
+{
+
+case "1":
+
+$("#trainerone").val(trainername);
+
+break;
+
+case "2":
+
+$("#trainertwo").val(trainername);
+
+break;
+
+case "3":
+
+$("#trainerthree").val(trainername);
+
+break;
+
+case "4":
+
+$("#trainerfour").val(trainername);
+
+break;
+
+}
+
+
+
+$("#trainermodal").modal('hide');
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+
+</script>
 
 <!--<script src="{!! asset('theme/assets/global/plugins/morris/morris.min.js')!!}" type="text/javascript"></script>-->
 

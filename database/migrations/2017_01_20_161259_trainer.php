@@ -20,7 +20,7 @@ class Trainer extends Migration
             $table->string('surname');
             $table->string('cnic')->unique();
             $table->string('dateofbirth');
-            $table->integer('gender');
+            $table->string('gender');
             $table->longText('address');
             $table->string('mobile');
             $table->string('email');
@@ -36,6 +36,7 @@ class Trainer extends Migration
             $table->string('officecode');
             $table->string('officeaddress');
             $table->string('addedby');
+            $table->integer('status')->default(1);
             $table->timestamps();
 
         });

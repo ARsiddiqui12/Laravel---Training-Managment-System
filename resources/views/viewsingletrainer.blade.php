@@ -8,6 +8,9 @@
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') !!}" rel="stylesheet" type="text/css" />
 <link href="{!! asset('theme/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}" rel="stylesheet" type="text/css" />
 
+<link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
+        <link href="{!! asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')!!}" rel="stylesheet" type="text/css" />
+
 
 @endpush
 
@@ -21,7 +24,7 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Add Training Category</h1>
+                <h1 style="text-transform: none;">View Trainer</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
@@ -29,7 +32,7 @@
                     <li>
                         Training
                     </li>
-                    <li class="active">Add Category</li>
+                    <li class="active">View Trainer</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -46,191 +49,219 @@
             <!-- BEGIN SIDEBAR CONTENT LAYOUT -->
             <div class="page-content-container">
                 <div class="page-content-row">
-                    <!-- BEGIN PAGE SIDEBAR -->
-                    <div class="page-sidebar">
-                        <nav class="navbar" role="navigation">
-                            <!-- Brand and toggle get grouped for better mobile display -->
-                            <!-- Collect the nav links, forms, and other content for toggling -->
-                            <ul class="nav navbar-nav margin-bottom-35">
-                                <li class="active">
-                                    <a href="{{url('/home')}}">
-                                        <i class="icon-home"></i> Dashboard </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('/project/view')}}">
-                                        <i class="icon-bar-chart "></i> View Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-folder"></i> Project Categories </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-user "></i> Add Trainer </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-map-marker"></i> Add Targeted Place </a>
-                                </li>
-                            </ul>
-<!--
-                            <h3>Quick Actions</h3>
-                            <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-envelope "></i> Inbox
-                                        <label class="label label-danger">New</label>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-paper-clip "></i> Task </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-star"></i> Projects </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-pin"></i> Events
-                                        <span class="badge badge-success">2</span>
-                                    </a>
-                                </li>
-                            </ul>
--->
-                        </nav>
-                    </div>
-                    <!-- END PAGE SIDEBAR -->
+                    
                     <div class="page-content-col">
                         <!-- BEGIN PAGE BASE CONTENT -->
 
                         <div class="row">
+
                             <div class="col-md-12">
                                 <!-- BEGIN VALIDATION STATES-->
                                 <div class="portlet light portlet-fit portlet-form bordered" id="form_wizard_1">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Training Category</span>
+                                            <i class=" icon-user font-green"></i>
+                                            <span class="caption-subject font-green sbold uppercase">Trainer Details</span>
                                         </div>
-
-                                    </div>
-                                    <div class="portlet-body">
-                                        @if(Session('successmsg'))
-
-                                            <div class="form-body">
-                                            <div class="alert alert-success" role="alert" style="font-style: italic;">Success: {{ Session('successmsg') }}</div>
-                                            </div>
-
-                                        @endif
-                                        
-                                        
-                                       
-
-                                        <!-- BEGIN FORM-->
-                                        <form action="{{route('category.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                            
-                                            {{ csrf_field() }}
-                                            
-                                            <div class="form-body">
-                                            
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    <label>Select Project <span style="color:red;">*</span></label>
-                                                    <select class="form-control" name="project" required>
-                                                    
-                                                        <option value="" selected>Select Project</option>
+                                        <div class="actions">
+                                                    <div class="btn-group btn-group-devided" data-toggle="buttons">
                                                         
-                                                        @forelse($project as $row)
+                                                        <label class="btn btn-info btn-outline btn-circle btn-sm" id="printclick">
+                                                            
+                                                            <input type="radio" name="options" class="toggle" id="option2"><i class="fa fa-print"></i>&nbsp;Print
                                                         
-                                                        <option value="{{$row->projectid}}">{{$row->title}}</option>
+                                                        </label>
                                                         
-                                                        @empty
+                                                        <label class="btn btn-info btn-outline btn-circle btn-sm" id="editbtn">
+                                                            
+                                                            <input type="radio" name="options" class="toggle" id="option2"><i class="fa fa-edit"></i>&nbsp;Edit
                                                         
-                                                        <option value="">Record not found...!</option>
+                                                        </label>
                                                         
-                                                        @endforelse
-                                                    </select>
-                                                    
-                                                    @if($errors->has('project'))
-                                                    <span style="color:red;">{{$errors->first('project')}}</span>
-                                                    @endif
-                                                    
-                                                </div>    
-                                                
-                                            </div>    
-                                                
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                    
-                                                    <label>Category <span style="color:red;">*</span></label>
-                                                   
-                                                    <input type="text" name="category" class="form-control" value="{{old('category')}}" placeholder="Training Main Category" >
-                                                @if($errors->has('category'))
-                                                    <span style="color:red;">{{$errors->first('category')}}</span>
-                                                    @endif    
-                                                </div>    
-                                                
-                                            </div> 
-                                            
-                                            <div class="form-group">
-                                                
-                                                <div class="col-md-6">
-                                                   <label>Category Description <span style="color:red;">*</span></label> 
-                                                    
-                                                    <textarea rows="8" class="form-control" placeholder="Category Description" name="description" required>{{old('description')}}</textarea>
-                                                    
-                                                </div>    
-                                                @if($errors->has('description'))
-                                                    <span style="color:red;">{{$errors->first('description')}}</span>
-                                                @endif
-                                            </div> 
-                                                
-                                                
-                                                
-                                            </div>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                 
-                                                
-                                               
-
-                                                
-                                                
-                                             
-
-
-
-                                                
-                                                
-                                                
-                                            </div>
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-offset-3 col-md-9">
-                                                        <button type="submit" class="btn green">Submit</button>
-                                                        <button type="reset" class="btn default">Cancel</button>
+                                                         <label class="btn btn-danger  btn-outline btn-circle btn-sm" id="deletenow">
+                                                            
+                                                            <input type="radio" name="options" class="toggle" id="option1"><i class="fa fa-trash-o"></i>&nbsp;Delete
+                                                        
+                                                        </label>
+                                                        
+                                                        
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        <!-- END FORM-->
+
+
                                     </div>
+                                    
+                                    <div class="portlet-body">
+                                   <div class="row">
+                                          <div class="col-md-2"></div>
+                                          <div class="col-md-8" id="printTable" style="border:1px solid #eef1f5;">
+
+
+                                          <table class="table">
+                                              @forelse($trainer as $record)
+                                              <tr>
+                                              <th colspan="2" class="font-green">Personal Information</th>
+                                              </tr>
+                                              <tr>
+                                                  <th class="col-md-3">Name</th>
+                                                  <td class="col-md-9">{{$record->trainername}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Surname</th>
+                                                  <td class="col-md-9">{{$record->surname}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">CNIC Number</th>
+                                                  <td class="col-md-9">{{$record->cnic}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Name</th>
+                                                  <td class="col-md-9">{{$record->trainername}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Date Of Birth</th>
+                                                  <td class="col-md-9">{{$record->dateofbirth}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Gender</th>
+                                                  <td class="col-md-9">{{$record->gender}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Address</th>
+                                                  <td class="col-md-9">{{$record->address}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Mobile Number</th>
+                                                  <td class="col-md-9">{{$record->mobile}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Email Address</th>
+                                                  <td class="col-md-9">{{$record->email}}</td>
+                                              </tr>
+
+                                              <tr>
+                                              <th colspan="2" class="font-green">Qualification, Skills & Profession</th>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Trainer Qualification</th>
+                                                  <td class="col-md-9">{{$record->qualification}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Trainer Profession / Job</th>
+                                                  <td><?php $profession = explode("-", $record->profession); ?>{{$profession[1]}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Trainer Type</th>
+                                                  <td><?php $trainertype = explode("-", $record->trainertype); ?>{{$trainertype[1]}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Trainer Level</th>
+                                                  <td><?php $trainerlevel = explode("-", $record->trainerlevel); ?>{{$trainerlevel[1]}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Primary Language</th>
+                                                  <td class="col-md-9">{{$record->primarylanguage}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Secondary Language</th>
+                                                  <td class="col-md-9">{{$record->secondarylanguage}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Additional Information</th>
+                                                  <td class="col-md-9">{{$record->info}}</td>
+                                              </tr>
+
+                                              <tr>
+                                              <th colspan="2" class="font-green">Project & Reporting Office</th>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Project Name</th>
+                                                  <td><?php $project = explode("-", $record->project); ?>{{$project[1]}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Reporting Office</th>
+                                                  <td class="col-md-9">{{$record->reportingoffice}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Branch / Office Code</th>
+                                                  <td class="col-md-9">{{$record->officecode}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Office Address</th>
+                                                  <td class="col-md-9">{{$record->officeaddress}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Record Id</th>
+                                                  <td class="col-md-9">{{$record->id}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Entered By</th>
+                                                  <td><?php $addedby = explode("-", $record->addedby); ?>{{$addedby[1]}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Entry Date</th>
+                                                  <td class="col-md-9">{{$record->created_at}}</td>
+                                              </tr>
+
+                                              
+
+
+
+
+
+
+
+
+                                              @empty
+
+                                              <tr>
+                                                  <th colspan="2"><div class="alert alert-info">Record Not Found...!</div></th>
+                                              </tr>
+                                              @endforelse
+                                          </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                          </div>
+                                          <div class="col-md-2"></div>
+                                    </div>   <br>
+                                    </div>   
+                                    
+                                        <!-- END FORM-->
+                                   
                                 </div>
                                 <!-- END VALIDATION STATES-->
                             </div>
@@ -825,16 +856,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 @endsection
 
 
@@ -886,6 +907,65 @@
 <script src="{!! asset('theme/assets/pages/scripts/form-validation.min.js')!!}" type="text/javascript"></script>
 
 
+<script src="{!! asset('theme/assets/global/plugins/datatables/datatables.min.js')!!}" type="text/javascript"></script>
+
+<script src="{!!asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')!!}" type="text/javascript"></script>
+
+<script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
+
+
+ <script src="{!! asset('theme/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}" type="text/javascript"></script>
+<script src="{!! asset('theme/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') !!}" type="text/javascript"></script>
+
+<script type="text/javascript">
+ 
+    function printData()
+{
+   var divToPrint=document.getElementById("printTable");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
+
+$(document).ready(function(){
+
+
+$("#printclick").click(function(){
+    
+   printData(); 
+    
+});
+    
+$("#deletenow").click(function(){
+   
+var cnf = confirm("Are You Sured you want to delete this project...!");
+
+var pid = $("#pid").val();
+    
+if(cnf == true)
+{
+  
+    window.location.href="{{url('/project/delete/')}}/"+pid;
+    
+}
+    
+}); 
+    
+    
+$("#editbtn").click(function(){
+    
+    var pid = $("#pid").val();
+    window.location.href="{{url('/project/edit/')}}/"+pid;
+    
+});    
+ 
+
+
+});
+
+
+</script>
 
 <!--<script src="{!! asset('theme/assets/global/plugins/morris/morris.min.js')!!}" type="text/javascript"></script>-->
 

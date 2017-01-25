@@ -155,9 +155,9 @@
                                                     
                                                     <option value="" selected>Select Gender</option>
 
-                                                    <option value="1">Male</option>
+                                                    <option value="1-Male">Male</option>
 
-                                                    <option value="2">Female</option>
+                                                    <option value="2-Female">Female</option>
 
                                                 </select>
 
@@ -252,9 +252,9 @@
                                                     
                                                     <option value="" selected>Select Trainer Type</option>
 
-                                                    <option value="1">In Service</option>
-                                                    <option value="2">Pre Service</option>
-                                                    <option value="3">Volunteer</option>
+                                                    <option value="1-In Service">In Service</option>
+                                                    <option value="2-Pre Service">Pre Service</option>
+                                                    <option value="3-Volunteer">Volunteer</option>
 
                                                 </select>
 
@@ -273,9 +273,9 @@
                                                     
                                                     <option value="" selected>Select Trainer Level</option>
 
-                                                    <option value="1">Training Expert</option>
-                                                    <option value="2">Qualified Trainer</option>
-                                                    <option value="3">Master Trainer</option>
+                                                    <option value="1-Training Expert">Training Expert</option>
+                                                    <option value="2-Qualified Trainer">Qualified Trainer</option>
+                                                    <option value="3-Master Trainer">Master Trainer</option>
 
                                                 </select>
 
@@ -331,7 +331,7 @@
 
                                                    @forelse($project as $recordtwo)
 
-                                                   <option value="{{$recordtwo->id}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
+                                                   <option value="{{$recordtwo->projectid}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
 
                                                    @empty
 

@@ -117,7 +117,22 @@ Route::post('addprofession',['uses'=>'training@addProfession','as'=>'profession.
 
 Route::post('/addtrainer',['uses'=>'training@addTrainer','as'=>'trainer.add']);
 
-    
+Route::get('/trainer','training@viewTrainers');
+
+Route::get('/viewtrainer/{id}','training@viewSingletrainer')->where('id','[0-9]+');
+
+Route::get('/deletetrainer/{id}','training@deleteTrainer')->where('id','[0-9]+');   
+
+Route::get('/add','training@trainingForm');
+
+Route::post('/getcategory',['uses'=>'training@getcategorybyProject','as'=>'category.get']);
+
+Route::post('/getmethod',['uses'=>'training@getMethodbyproject','as'=>'method.get']);
+
+Route::post('/getsubcategory',['uses'=>'training@getSubcategorybyproject','as'=>'subcategory.get']);
+
+Route::post('/add',['uses'=>'training@addTraining','as'=>'training.add']);
+
 });
 
 

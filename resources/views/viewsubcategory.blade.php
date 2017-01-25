@@ -104,6 +104,7 @@
                                                             <th>
                                                                 S.No
                                                             </th>
+                                                            <th> Project ID</th>
                                                             <th> Project Name </th>
                                                             <th> Category </th>
                                                             <th> Sub Category </th>
@@ -120,8 +121,8 @@
     <tr class="odd gradeX">
         
     <td>{{$var}}</td>
-        
-    <td><?php $exp=explode("-",$record->project); ?>{{$exp[1]}} </td>
+     <td>{{$record->projectid}} </td>   
+    <td>{{$record->title}} </td>
     
     <td>{{$record->category}}</td>
     <td>{{$record->subcategory}}</td>    

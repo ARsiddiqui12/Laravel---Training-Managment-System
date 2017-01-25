@@ -144,7 +144,7 @@
                                                         
                                                         @forelse($project as $row)
                                                         
-                                                        <option value="{{$row->projectid}}-{{$row->title}}">{{$row->title}}</option>
+                                                        <option value="{{$row->projectid}}">{{$row->title}}</option>
                                                         
                                                         @empty
                                                         
