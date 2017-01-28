@@ -133,10 +133,23 @@ Route::post('/getsubcategory',['uses'=>'training@getSubcategorybyproject','as'=>
 
 Route::post('/add',['uses'=>'training@addTraining','as'=>'training.add']);
 
+Route::get('/view','training@viewTraining');
+
+Route::get('/view/{id}','training@viewSingletraining')->where('id','[0-9]+');
+
+Route::get('/delete/{id}','training@deleteTraining')->where('id','[0-9]+');
+
+
 });
 
 
+Route::group(['prefix'=>'participant','middleware'=>'auth'],function(){
 
+
+Route::get('/add/{id}','participants@addparticipatForm')->where('id','[0-9]+');
+
+
+});
 
 
 

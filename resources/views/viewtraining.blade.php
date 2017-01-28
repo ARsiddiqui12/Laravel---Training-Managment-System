@@ -2,21 +2,24 @@
 
 @push('css')
 
-<link href="{!! asset('theme/assets/global/plugins/select2/css/select2.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/select2/css/select2-bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css') !!}" rel="stylesheet" type="text/css" />
-<link href="{!! asset('theme/assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css') !!}" rel="stylesheet" type="text/css" />
 
-<link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
+
+        <link href="{!! asset('theme/assets/global/plugins/datatables/datatables.min.css') !!}" rel="stylesheet" type="text/css" />
         <link href="{!! asset('theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')!!}" rel="stylesheet" type="text/css" />
 
-
+<style>
+.buttons-print,.buttons-excel,.buttons-copy,.buttons-csv,.buttons-pdf,.buttons-colvis {
+  background-color: #32c5d2 !important;
+  color: white !important;
+    border-color: white !important;
+}
+  
+</style>
 @endpush
 
 
-
 @section('content')
+
 
 
 
@@ -24,7 +27,7 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Trainer Registration Form</h1>
+                <h1 style="text-transform: none;">View Trainers List</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
@@ -32,7 +35,7 @@
                     <li>
                         Training
                     </li>
-                    <li class="active">Add Trainer</li>
+                    <li class="active">Trainers List</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -50,356 +53,170 @@
             <div class="page-content-container">
                 <div class="page-content-row">
                     
-                    <div class="page-content-col">
+                   
                         <!-- BEGIN PAGE BASE CONTENT -->
 
                         <div class="row">
-
                             <div class="col-md-12">
+                                
+                                 @if(Session('successmsg'))
+
+                                            <div class="form-body">
+                                            <div class="alert alert-success" role="alert" style="font-style: italic;">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                
+                                                Success: {{ Session('successmsg') }}</div>
+                                            </div>
+
+                                        @endif
+                                
                                 <!-- BEGIN VALIDATION STATES-->
                                 <div class="portlet light portlet-fit portlet-form bordered" id="form_wizard_1">
                                     <div class="portlet-title">
                                         <div class="caption">
                                             <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Trainer</span>
+                                            <span class="caption-subject font-green sbold uppercase">View Trainers</span>
                                         </div>
 
                                     </div>
-                                    
-                                    <div class="portlet-body">
-                                        @if(Session('successmsg'))
-
-                                            <div class="form-body">
-                                            <div class="alert alert-success" role="alert" style="font-style: italic;">Success: {{ Session('successmsg') }}</div>
-                                            </div>
-
-                                        @endif
-                                        
-                                        
-                                      
-
-                                        <!-- BEGIN FORM-->
-                                        <form action="{{route('trainer.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                            
-                                            {{ csrf_field() }}
-                                            
-                                            <div class="form-body" style="padding: 0px !important;">
-                                            
-                                            <div class="form-group">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-8" style="border:1px solid #eef1f5; padding:10px;">
-                                            <div class="col-md-12">
-                                                
-                                                <h3 style="margin:0px;">Personal Information</h3>
-                                                <hr>
-
-                                            </div>
-
-
-                                             <div class="col-md-6">
-                                               <label>Trainer Name <span style="color:red;">*</span></label>   
-                                             <input type="text" value="{{old('trainername')}}" class="form-control" placeholder="Trainer Name" name="trainername" required="required">
-                                             
-                                                @if($errors->has('trainername'))
-                                                <span style="color:red;">{{$errors->first('trainername')}}</span>
-                                                @endif   
-                                                
-                                             </div>
-                                             
-                                             <div class="col-md-6">
-                                                 <label>Surname <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('surname')}}" class="form-control" placeholder="Surname" name="surname" required="required">
-                                             
-                                                @if($errors->has('surname'))
-                                                <span style="color:red;">{{$errors->first('surname')}}</span>
-                                                @endif    
-
-                                             </div>   
-
-
-
-                                             <div class="col-md-6">
-                                                 <br><label>CNIC Number <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('cnic')}}" class="form-control" placeholder="CNIC Number" name="cnic" id="cnic" required="required">
-                                             
-                                                @if($errors->has('cnic'))
-                                                <span style="color:red;">{{$errors->first('cnic')}}</span>
-                                                @endif    
-
-                                             </div> 
-                                             <div class="form-group">
-                                             <div class="col-md-6">
-                                             
-                                                <br> <label>Date Of Birth <span style="color:red;">*</span></label>
-                                            
-                                              <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-            <input type="text" class="form-control" placeholder="Date Of Birth" value="{{old('dateofbirth')}}" name="dateofbirth" required="required">
-            <span class="input-group-btn">
-            <button class="btn default" type="button">
-            <i class="fa fa-calendar"></i>
-            </button>
-            </span>
-            </div>
-                                                @if($errors->has('dateofbirth'))
-                                                <span style="color:red;">{{$errors->first('dateofbirth')}}</span>
-                                                @endif    
-                                                </div>
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-
-                                                <label>Gender <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="gender" required>
-                                                    
-                                                    <option value="" selected>Select Gender</option>
-
-                                                    <option value="1-Male">Male</option>
-
-                                                    <option value="2-Female">Female</option>
-
-                                                </select>
-
-                                                @if($errors->has('gender'))
-                                                <span style="color:red;">{{$errors->first('gender')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-                                             <div class="col-md-6">
-                                                <label>Home / Office Address  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="address" required="required">
-                                             
-                                                @if($errors->has('address'))
-                                                <span style="color:red;">{{$errors->first('address')}}</span>
-                                                @endif    
-
-                                             </div>
-
-
-                                             <div class="col-md-6">
-                                                <br> <label>Mobile Number  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" id="mask_phone" required="required">
-                                             
-                                                @if($errors->has('mobile'))
-                                                <span style="color:red;">{{$errors->first('mobile')}}</span>
-                                                @endif    
-
-                                             </div>
-
-
-                                             <div class="col-md-6">
-                                                <br> <label>Email Address  <span style="color:green;">( Optional )</span></label>
-                                              <input type="email" value="{{old('email')}}" class="form-control" placeholder="Email Address" name="email" >
-                                             @if($errors->has('email'))
-                                                <span style="color:red;">{{$errors->first('email')}}</span>
-                                                @endif
-                                             
-
-                                             </div>
-
-
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Qualification, Skills and Profession</h3>
-                                                <hr>
-                                             </div>
-
-
-                                             <div class="col-md-6">
-                                                <label>Trainer Qualification  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('qualification')}}" class="form-control" placeholder="Trainer Qualification" name="qualification" required="required">
-                                             
-                                                @if($errors->has('qualification'))
-                                                <span style="color:red;">{{$errors->first('qualification')}}</span>
-                                                @endif    
-
-                                             </div>
-
-
-                                             <div class="col-md-6">
-
-                                                 <label>Profession / Job <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#profession" data-backdrop="static" data-kyeboard="false">Add Profession</a>
-                                                
-                                                <select class="form-control" name="profession" required>
-                                                    
-                                                    <option value="" selected>Select Profession</option>
-
-                                                    @forelse($getprofession as $job)
-
-                                                    <option value="{{$job->id}}-{{$job->profession}}">{{$job->profession}}</option>
-
-                                                    @empty
-
-                                                    <option value="">Record not Found..!</option>
-
-                                                    @endforelse
-
-                                                </select>
-
-                                                @if($errors->has('profession'))
-                                                <span style="color:red;">{{$errors->first('profession')}}</span>
-                                                @endif    
-
-                                             </div>
-
-
-                                             <div class="col-md-6">
-
-                                                <br> <label>Trainer Type <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainertype" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Type</option>
-
-                                                    <option value="1">In Service</option>
-                                                    <option value="2">Pre Service</option>
-                                                    <option value="3">Volunteer</option>
-
-                                                </select>
-
-                                                @if($errors->has('trainertype'))
-                                                <span style="color:red;">{{$errors->first('trainertype')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-
-                                                <br> <label>Trainer Level <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainerlevel" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Level</option>
-
-                                                    <option value="1">Training Expert</option>
-                                                    <option value="2">Qualified Trainer</option>
-                                                    <option value="3">Master Trainer</option>
-
-                                                </select>
-
-                                                @if($errors->has('trainerlevel'))
-                                                <span style="color:red;">{{$errors->first('trainerlevel')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-                                               <br> <label>Primary Language  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('primarylanguage')}}" class="form-control" placeholder="Primery Language" name="primarylanguage" required="required">
-                                             
-                                                @if($errors->has('primarylanguage'))
-                                                <span style="color:red;">{{$errors->first('primarylanguage')}}</span>
-                                                @endif    
-
-                                             </div>
-
-                                             <div class="col-md-6">
-                                               <br> <label>Secondary Languages  <span style="color:green;">( Optional )</span></label>
-                                              <input type="text" value="{{old('secondarylanguage')}}" class="form-control" placeholder="Secondary Languages ( Sindhi, English, Punjabi )" name="secondarylanguage">
-                                             
-                                             @if($errors->has('secondarylanguage'))
-                                                <span style="color:red;">{{$errors->first('secondarylanguage')}}</span>
-                                                @endif 
-                                                 
-
-                                             </div>
-
-
-                                             <div class="col-md-12">
-                                               <br> <label>Additional Information  <span style="color:green;">( Optional )</span></label>
-                                              <textarea  class="form-control" placeholder="Additional Information" name="info" >
-                                              {{old('info')}}
-                                             </textarea>
-                                                   
-
-                                             </div>
-
-
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Project and Reporting Place</h3>
-                                                <hr>
-                                             </div>
-
-
-                                              <div class="col-md-6">
-                                               <label>Project  <span style="color:red;">*</span></label>
-                                               <select class="form-control" name="project" required="required">
-                                                   <option value="" selected>Select Project</option>
-
-                                                   @forelse($project as $recordtwo)
-
-                                                   <option value="{{$recordtwo->projectid}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
-
-                                                   @empty
-
-                                                   <option value="">Record Not Found..!</option>
-
-                                                   @endforelse
-
-                                               </select>  
-                                                
-                                                @if($errors->has('project'))
-                                                <span style="color:red;">{{$errors->first('project')}}</span>
-                                                @endif 
-                                                 
-                                               <br>
-                                             </div>
-
-                                             <div class="col-md-6">
-
-                                               <label>Reporting Office  <span style="color:red;">*</span></label>
-                                               <a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
-                                               <input type="text" name="reportingoffice" placeholder="Select Reporting Office" class="form-control" value="{{old('reportingoffice')}}" id="officename" readonly="readonly" required>
-                                               @if($errors->has('reportingoffice'))
-                                                <span style="color:red;">{{$errors->first('reportingoffice')}}</span>
-                                                @endif
-                                             <br>
-                                             </div>
-                                             <input type="hidden" name="officecode" id="officecode" value="{{old('officecode')}}">
-                                             <input type="hidden" name="officeaddress" id="officeaddress" value="{{old('officeaddress')}}">
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                            </div>
-                                            <div class="col-md-2"></div>
-                                            </div>    
-
-
-
-
-                                            </div>
+<div class="portlet-body" style="padding:10px;">
                                                 
                                                 
-                         
-                                            
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-12"><center>
-                                                        <button type="submit" class="btn green">Register</button>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <button type="reset" class="btn default">Cancel</button>
-                                                        </center>
+                                                <div class="table-toolbar">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="btn-group">
+    <a href="{{url('training/addtrainer')}}"  class="btn sbold green"> Add New
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                        
-                                        </div>
-                                        <!-- END FORM-->
-                                   
+    
+                                            
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                                                    <thead>
+                                                        <tr>
+                                                            <td>S.No</td>
+                                                            <th>&nbsp;Action</th>
+                                                            <th>Project Name</th>
+                                                            <th>Project Id</th>
+                                                            <th>Reporting Office</th>
+                                                            <th>Office Code</th>
+                                                            <th>Office Address</th>
+                                                            <th>Country</th>
+                                                            <th>State</th>
+                                                            <th>City</th>
+                                                            <th>Training Title</th>
+                                                            <th>Category</th>
+                                                            <th>Sub Category</th>
+                                                            <th>Training Method</th>
+                                                            <th>Training Location</th>
+                                                            <th>Location Address</th>
+                                                            <th>Training Start Date</th>
+                                                            <th>Training End Date</th>
+                                                            <th>Training Length</th>
+                                                            <th>Number Of Participants</th>
+                                                            <th>Trainer One</th>
+                                                            <th>Trainer Two</th>
+                                                            <th>Trainer Three</th>
+                                                            <th>Trainer Four</th>
+                                                            <th>Entered By</th>
+                                                            <th>Entry Date</th>
+                                                        </tr>
+                                                    </thead>
+<tbody>
+                                                        
+    <?php $var = 1; ?>
+    
+    @forelse($training as $record)
+    
+    <tr class="odd gradeX">
+
+    <td>{{$var}}</td>
+
+    <td>
+        
+    <div class="btn-group">
+        
+    <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions
+    
+    <i class="fa fa-angle-down"></i>
+    
+    </button>
+    
+    <ul class="dropdown-menu" role="menu">
+
+    <li> <a href="{{url('participant/add/'.$record->id)}}"> <i class="icon-plus"></i> Add Participant </a> </li>    
+
+    <li> <a href="{{url('training/view/'.$record->id)}}"> <i class="icon-eye"></i> View </a> </li>    
+
+    <li class="disabled"> <a href="#"><i class="fa fa-edit"></i>Edit </a> </li>
+
+    <li> <a href="javascript:;" class="deletelocation" id="{{$record->id}}"> <i class="icon-trash"></i> Delete </a> </li>
+
+    <!-- <li class="divider"> </li>
+
+    <li> <a href="#"> <i class="icon-flag"></i> Comments <span class="badge badge-success">4</span></a> </li> -->
+
+    </ul>
+                                                                
+    </div>
+
+    </td>
+
+    <td>{{$record->projectname}}</td>
+    <td>{{$record->projectid}}</td>
+    <td>{{$record->reportingoffice}}</td>
+    <td>{{$record->officecode}}</td>
+    <td>{{$record->officeaddress}}</td>
+    <td>{{$record->officecountry}}</td>
+    <td>{{$record->officestate}}</td>
+    <td>{{$record->officecity}}</td>
+    <td>{{$record->trainingtitle}}</td>
+    <td>{{$record->category}}</td>
+    <td>{{$record->subcategory}}</td>
+    <td>{{$record->method}}</td>
+    <td>{{$record->traininglocation}}</td>
+    <td>{{$record->locationaddress}}</td>
+    <td>{{$record->startdate}}</td>
+    <td>{{$record->enddate}}</td>
+    <td>{{$record->traininglength}}</td>
+    <td>{{$record->numberofparticipants}}</td>
+    <td>{{$record->trainerone}}</td>
+    <td>{{$record->trainertwo}}</td>
+    <td>{{$record->trainerthree}}</td>
+    <td>{{$record->trainerfour}}</td>    
+    <td><?php $addedby = explode("-",$record->addedby); ?>{{$addedby[1]}}</td>   
+    <td>{{$record->created_at}}</td>
+
+    </tr>
+    
+    <?php $var++; ?>
+
+@empty
+    
+    
+<tr class="odd gradeX">
+    
+    <td colspan="6">
+        <div class="alert alert-info">
+        <strong>Record Not Found...!</strong>
+        </div>
+    </td>
+    
+</tr>
+    
+    
+@endforelse    
+                                                                                                    
+</tbody>
+                                                </table>
+                                            </div>                                    
                                 </div>
                                 <!-- END VALIDATION STATES-->
                             </div>
@@ -408,7 +225,7 @@
                         
                         
                         <!-- END PAGE BASE CONTENT -->
-                    </div>
+                   
                 </div>
             </div>
             <!-- END SIDEBAR CONTENT LAYOUT -->
@@ -427,42 +244,42 @@
     </div>
     <!-- END CONTAINER -->
     <!-- BEGIN QUICK SIDEBAR -->
-    <a href="javascript:;" class="page-quick-sidebar-toggler">
+    <a href="#" class="page-quick-sidebar-toggler">
         <i class="icon-login"></i>
     </a>
     <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
         <div class="page-quick-sidebar">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users
+                    <a href="#" data-target="#quick_sidebar_tab_1" data-toggle="tab"> Users
                         <span class="badge badge-danger">2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;" data-target="#quick_sidebar_tab_2" data-toggle="tab"> Alerts
+                    <a href="#" data-target="#quick_sidebar_tab_2" data-toggle="tab"> Alerts
                         <span class="badge badge-success">7</span>
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> More
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> More
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-bell"></i> Alerts </a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-info"></i> Notifications </a>
                         </li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-speech"></i> Activities </a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="javascript:;" data-target="#quick_sidebar_tab_3" data-toggle="tab">
+                            <a href="#" data-target="#quick_sidebar_tab_3" data-toggle="tab">
                                 <i class="icon-settings"></i> Settings </a>
                         </li>
                     </ul>
@@ -573,7 +390,7 @@
                     <div class="page-quick-sidebar-item">
                         <div class="page-quick-sidebar-chat-user">
                             <div class="page-quick-sidebar-nav">
-                                <a href="javascript:;" class="page-quick-sidebar-back-to-list">
+                                <a href="#" class="page-quick-sidebar-back-to-list">
                                     <i class="icon-arrow-left"></i>Back</a>
                             </div>
                             <div class="page-quick-sidebar-chat-user-messages">
@@ -581,7 +398,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> When could you send me the report ? </span>
                                     </div>
@@ -590,7 +407,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> Its almost done. I will be sending it shortly </span>
                                     </div>
@@ -599,7 +416,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:15</span>
                                         <span class="body"> Alright. Thanks! :) </span>
                                     </div>
@@ -608,7 +425,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:16</span>
                                         <span class="body"> You are most welcome. Sorry for the delay. </span>
                                     </div>
@@ -617,7 +434,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> No probs. Just take your time :) </span>
                                     </div>
@@ -626,7 +443,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:40</span>
                                         <span class="body"> Alright. I just emailed it to you. </span>
                                     </div>
@@ -635,7 +452,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> Great! Thanks. Will check it right away. </span>
                                     </div>
@@ -644,7 +461,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar2.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Ella Wong</a>
+                                        <a href="#" class="name">Ella Wong</a>
                                         <span class="datetime">20:40</span>
                                         <span class="body"> Please let me know if you have any comment. </span>
                                     </div>
@@ -653,7 +470,7 @@
                                     <img class="avatar" alt="" src="../assets/layouts/layout/img/avatar3.jpg" />
                                     <div class="message">
                                         <span class="arrow"></span>
-                                        <a href="javascript:;" class="name">Bob Nilson</a>
+                                        <a href="#" class="name">Bob Nilson</a>
                                         <span class="datetime">20:17</span>
                                         <span class="body"> Sure. I will check and buzz you if anything needs to be corrected. </span>
                                     </div>
@@ -698,7 +515,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -789,7 +606,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -832,7 +649,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -923,7 +740,7 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="javascript:;">
+                                <a href="#">
                                     <div class="col1">
                                         <div class="cont">
                                             <div class="cont-col1">
@@ -987,163 +804,93 @@
         </div>
     </div>
     <!-- END QUICK SIDEBAR -->
-    
+    <!-- BEGIN QUICK NAV -->
+    <nav class="quick-nav">
+        <a class="quick-nav-trigger" href="#0">
+            <span aria-hidden="true"></span>
+        </a>
+        <ul>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" target="_blank" class="active">
+                    <span>Purchase Metronic</span>
+                    <i class="icon-basket"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://themeforest.net/item/metronic-responsive-admin-dashboard-template/reviews/4021469?ref=keenthemes" target="_blank">
+                    <span>Customer Reviews</span>
+                    <i class="icon-users"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/showcast/" target="_blank">
+                    <span>Showcase</span>
+                    <i class="icon-user"></i>
+                </a>
+            </li>
+            <li>
+                <a href="http://keenthemes.com/metronic-theme/changelog/" target="_blank">
+                    <span>Changelog</span>
+                    <i class="icon-graph"></i>
+                </a>
+            </li>
+        </ul>
+        <span aria-hidden="true" class="quick-nav-bg"></span>
+    </nav>
+    <div class="quick-nav-overlay"></div>
 
 
-<!-- Add Profession Start -->
+    <div class="modal fade" id="mymodal" tabindex="-1" backdrop="static" keyboard="false" role="dialog">
 
+    <div class="modal-dialog" role="document">
 
-
-
-<div class="modal fade" id="profession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+
+    <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Add a new Profession</strong></h4>
-      </div>
-      <form method="post" action="{{route('profession.add')}}">
-      {{ csrf_field() }}
-      <div class="modal-body">
+        <h4 class="modal-title"><strong>Add Project Category</strong></h4>
+    </div>
 
-      @if(Session('profession'))
+    <div class="modal-body">
+        @if ($errors->has('cattitle'))
+            <div class="alert alert-danger" role="alert" style="font-style: italic;">Error: {{ $errors->first('cattitle') }}</div>
+        @endif
+        @if ($errors->has('shortdescription'))
+            <div class="alert alert-danger" role="alert" style="font-style: italic;">Error: {{ $errors->first('shortdescription') }}</div>
+        @endif
+    <form action="{{ route('pcat.add') }}" method="post" >
 
-      <div class="alert alert-success">Success: {{Session('profession')}}</div>
-
-      @endif
-      
         <div class="form-group">
-            <label>Profession<span style="color: red;">*</span></label>
-            <input type="text" name="profession" placeholder="Profession" required="required" class="form-control">
-            <span style="font-size: 12px;color:green; ">Spelling must be Accurate</span>
-            @if($errors->has('profession'))
-            <span style="color:red;">{{$errors->first('profession')}}</span>
-            @endif
+            {{ csrf_field() }}
+            <label><strong>Title</strong></label>
+            <input type="text" name="cattitle" class="form-control" placeholder="Enter Project Category Title" required>
+
+        </div>
+        
+        <div class="form-group">
+        <label><strong>Short Description</strong></label>
+            
+        <textarea name="shortdescription" class="form-control" required></textarea>
+        
         </div>
         <div class="form-group">
-            <label>Additional Info <span style="color: green;">( Optional )</span></label>
-            <textarea name="info" placeholder="Additional Information About Profession" class="form-control">
-            </textarea>
+
+            <button type="submit" class="btn btn-info">Add</button>
+
+
         </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
+    </form>
     </div>
-  </div>
-</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Add profession end -->
-
-
-
-
-<!-- Select Office -->
-
-
-
-<div class="modal fade" id="office" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Select Project Office</strong></h4>
-      </div>
-
-      <div class="modal-body">
-
-       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                S.No
-                                                            </th>
-                                                            <th> Office Id </th>
-                                                            <th> Office </th>
-                                                            <th> Address </th>
-                                
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-<tbody>
-                                                        
-    <?php $var = 1; ?>
-    
-    @forelse($office as $record)
-    
-    <tr class="odd gradeX">
-        
-    <td>{{$var}}</td>
-        
-    <td>{{$record->branchcode}}</td>
-    
-    <td>{{$record->branch}}</td>
-    <td>
-    {{$record->address}}, <?php 
-    $country = explode("-", $record->country);
-    $state = explode("-", $record->state);
-    $city = explode("-", $record->city); ?>
-    {{$country[1]." / ".$state[1]." / ".$city[1]}}
-    </td>    
-   
-    
-    <td>
-    <div class="btn-group">
-    <button class="btn btn-xs btn-info selecter" id="{{$record->branchcode}}" name="{{$record->branch}}" address="{{$record->address}}, {{$country[1]." / ".$state[1]." / ".$city[1]}}"><i class="fa fa-check"></i> Select 
-    </button>
-    
+    <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
     </div>
-                                                            </td>
-                                                        </tr>
-    
-    <?php $var++; ?>
-@empty
-    
-    
-<tr class="odd gradeX">
-    
-    <td colspan="6">
-        <div class="alert alert-info">
-        <strong>Record Not Found...!</strong>
-        </div>
-    </td>
-    
-</tr>
-    
-    
-@endforelse    
-                                                                                                    
-</tbody>
-                                                </table> 
 
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        
-      </div>
-      
     </div>
-  </div>
-</div>
+
+    </div>
+
+    </div>
 
 
 
@@ -1155,7 +902,11 @@
 
 
 
-<!-- Select office -->
+
+
+
+
+
 
 
 
@@ -1183,37 +934,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @push('js')
 
-<script src="{!! asset('theme/assets/global/plugins/select2/js/select2.full.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/jquery-validation/js/jquery.validate.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/jquery-validation/js/additional-methods.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/ckeditor/ckeditor.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-markdown/lib/markdown.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js')!!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/pages/scripts/form-validation.min.js')!!}" type="text/javascript"></script>
 
+<script src="{!! asset('theme/assets/global/scripts/datatable.js')!!}" type="text/javascript"></script>
 
 <script src="{!! asset('theme/assets/global/plugins/datatables/datatables.min.js')!!}" type="text/javascript"></script>
 
@@ -1221,72 +945,37 @@
 
 <script src="{!! asset('theme/assets/pages/scripts/table-datatables-managed.min.js')!!}" type="text/javascript"></script>
 
-
- <script src="{!! asset('theme/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js') !!}" type="text/javascript"></script>
-<script src="{!! asset('theme/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') !!}" type="text/javascript"></script>
-
 <script type="text/javascript">
     
-$(document).ready(function(){
-
-
-$("#mask_phone").inputmask("9999-9999999");
-
-$("#cnic").inputmask("99999-9999999-9");
-
-$('#sample_1').DataTable({
+    $(document).ready(function(){
+    $('#sample_1').DataTable({
         
-         
-        "pageLength": 12,
-             
+         "pageLength": 10,
+        "scrollX": true,
+         dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print','colvis'
+        ]
+        
         
     });
-
-$(".selecter").click(function(){
-
-$("#officename").val('');
-
-var branchcode = $(this).attr("id");
-var branch = $(this).attr("name");
-var address = $(this).attr("address");
-
-$("#officename").val(branch);
-
-$("#officecode").val(branchcode);
-
-$("#officeaddress").val(address);
-
-$("#office").modal('hide');
-
-
+        
+    $(".deletelocation").click(function(){
+        
+    var catid =$(this).attr("id");
+    
+    var deletecat =confirm("Are you sure you want to Delete this Category ?");
+        
+    if(deletecat==true)
+    {
+        window.location.href="{{url('training/delete')}}/"+catid;
+    }
+        
+    });  
+        
+        
 });
-
-
-
-@if(Session('profession') || $errors->has('profession'))
-
-$("#profession").modal({
-
-backdrop:'static',
-kyeboard:false
-
-});
-
-@endif
-
-
-
-});
-
 
 </script>
 
-<!--<script src="{!! asset('theme/assets/global/plugins/morris/morris.min.js')!!}" type="text/javascript"></script>-->
-
-
-
-
-
-
 @endpush
-

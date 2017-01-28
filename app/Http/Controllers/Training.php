@@ -1011,11 +1011,64 @@ class Training extends Controller
 
     }
 
+
+    public function viewTraining()
+    {
+
+      $training = DB::table('training')
+      ->select('training.*','training.project as projectname','trainingcategory.*','subcategory.*','trainingmethod.*')
+      ->join('trainingcategory','training.category','=','trainingcategory.categoryid')
+      ->join('trainingmethod','training.trainingmethod','=','trainingmethod.methodid')
+      ->join('subcategory','training.subcategory','=','subcategory.subcategoryid')
+      ->where('training.status',1)->get();
+
+      return view('viewtraining',['title'=>'Training List','training'=>$training]);      
+
+    }
+
+    public function viewSingletraining($id)
+    {
+
+        
+        $training = DB::table('training')
+      ->select('training.*','training.project as projectname','trainingcategory.*','subcategory.*','trainingmethod.*')
+      ->join('trainingcategory','training.category','=','trainingcategory.categoryid')
+      ->join('trainingmethod','training.trainingmethod','=','trainingmethod.methodid')
+      ->join('subcategory','training.subcategory','=','subcategory.subcategoryid')
+      ->where(['training.id'=>$id,'training.status'=>1])->get();
+
+        return view('trainingsingleview',['title','View Training','training'=>$training]);
+
+    }
+
+
+    public function deleteTraining($id)
+    {
+
+        Trainingmodel::where(['id'=>$id,'status'=>1])->update(['status'=>'0']);
+
+        Session()->flash('successmsg','Training Deleted Successfully...!');
+
+        return back(); 
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
     
     public function codeTest()
     {
         
-        
+    
         
     }
     

@@ -24,7 +24,7 @@
         <div class="page-content">
             <!-- BEGIN BREADCRUMBS -->
             <div class="breadcrumbs">
-                <h1 style="text-transform: none;">Trainer Registration Form</h1>
+                <h1 style="text-transform: none;">View Trainer</h1>
                 <ol class="breadcrumb">
                     <li>
                         Home
@@ -32,7 +32,7 @@
                     <li>
                         Training
                     </li>
-                    <li class="active">Add Trainer</li>
+                    <li class="active">View Trainer</li>
                 </ol>
                 <!-- Sidebar Toggle Button -->
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".page-sidebar">
@@ -60,344 +60,220 @@
                                 <div class="portlet light portlet-fit portlet-form bordered" id="form_wizard_1">
                                     <div class="portlet-title">
                                         <div class="caption">
-                                            <i class=" icon-layers font-green"></i>
-                                            <span class="caption-subject font-green sbold uppercase">Add new Trainer</span>
+                                            <i class=" icon-user font-green"></i>
+                                            <span class="caption-subject font-green sbold uppercase">Trainer Details</span>
                                         </div>
+                                        <div class="actions">
+                                                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                                        
+                                                        <label class="btn btn-info btn-outline btn-circle btn-sm" id="printclick">
+                                                            
+                                                            <input type="radio" name="options" class="toggle" id="option2"><i class="fa fa-print"></i>&nbsp;Print
+                                                        
+                                                        </label>
+                                                        
+                                                        <!-- <label class="btn btn-info btn-outline btn-circle btn-sm disabled" id="editbtn">
+                                                            
+                                                            <input type="radio" name="options" class="toggle" id="option2"><i class="fa fa-edit"></i>&nbsp;Edit
+                                                        
+                                                        </label>
+                                                        
+                                                         <label class="btn btn-danger  btn-outline btn-circle btn-sm" id="deletenow">
+                                                            
+                                                            <input type="radio" name="options" class="toggle deleteone" id="{{Request::segment(3)}}"><i class="fa fa-trash-o"></i>&nbsp;Delete
+                                                        
+                                                        </label>
+                                                         -->
+                                                        
+                                                    </div>
+                                                </div>
+
 
                                     </div>
                                     
                                     <div class="portlet-body">
-                                        @if(Session('successmsg'))
-
-                                            <div class="form-body">
-                                            <div class="alert alert-success" role="alert" style="font-style: italic;">Success: {{ Session('successmsg') }}</div>
-                                            </div>
-
-                                        @endif
-                                        
-                                        
-                                      
-
-                                        <!-- BEGIN FORM-->
-                                        <form action="{{route('trainer.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                            
-                                            {{ csrf_field() }}
-                                            
-                                            <div class="form-body" style="padding: 0px !important;">
-                                            
-                                            <div class="form-group">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-8" style="border:1px solid #eef1f5; padding:10px;">
-                                            <div class="col-md-12">
-                                                
-                                                <h3 style="margin:0px;">Personal Information</h3>
-                                                <hr>
-
-                                            </div>
-
-
-                                             <div class="col-md-6">
-                                               <label>Trainer Name <span style="color:red;">*</span></label>   
-                                             <input type="text" value="{{old('trainername')}}" class="form-control" placeholder="Trainer Name" name="trainername" required="required">
-                                             
-                                                @if($errors->has('trainername'))
-                                                <span style="color:red;">{{$errors->first('trainername')}}</span>
-                                                @endif   
-                                                
-                                             </div>
-                                             
-                                             <div class="col-md-6">
-                                                 <label>Surname <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('surname')}}" class="form-control" placeholder="Surname" name="surname" required="required">
-                                             
-                                                @if($errors->has('surname'))
-                                                <span style="color:red;">{{$errors->first('surname')}}</span>
-                                                @endif    
-
-                                             </div>   
-
-
-
-                                             <div class="col-md-6">
-                                                 <br><label>CNIC Number <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('cnic')}}" class="form-control" placeholder="CNIC Number" name="cnic" id="cnic" required="required">
-                                             
-                                                @if($errors->has('cnic'))
-                                                <span style="color:red;">{{$errors->first('cnic')}}</span>
-                                                @endif    
-
-                                             </div> 
-                                             <div class="form-group">
-                                             <div class="col-md-6">
-                                             
-                                                <br> <label>Date Of Birth <span style="color:red;">*</span></label>
-                                            
-                                              <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
-            <input type="text" class="form-control" placeholder="Date Of Birth" value="{{old('dateofbirth')}}" name="dateofbirth" required="required">
-            <span class="input-group-btn">
-            <button class="btn default" type="button">
-            <i class="fa fa-calendar"></i>
-            </button>
-            </span>
-            </div>
-                                                @if($errors->has('dateofbirth'))
-                                                <span style="color:red;">{{$errors->first('dateofbirth')}}</span>
-                                                @endif    
-                                                </div>
-                                             </div> 
+                                   <div class="row">
+                                          <div class="col-md-2"></div>
+                                          <div class="col-md-8" id="printTable" style="border:1px solid #eef1f5;">
+
+
+                                          <table class="table">
+                                              @forelse($training as $record)
+                                              <tr>
+                                              <th colspan="2" class="font-green">Project & Reporting Office Information</th>
+                                              </tr>
+                                              <tr>
+                                                  <th class="col-md-3">Project Name</th>
+                                                  <td class="col-md-9">{{$record->projectname}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Project Id</th>
+                                                  <td class="col-md-9">{{$record->projectid}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Reporting Office</th>
+                                                  <td class="col-md-9">{{$record->reportingoffice}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Branch Code</th>
+                                                  <td class="col-md-9">{{$record->officecode}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Office Address</th>
+                                                  <td class="col-md-9">{{$record->officeaddress}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Country</th>
+                                                  <td class="col-md-9">{{$record->officecountry}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">State</th>
+                                                  <td class="col-md-9">{{$record->officestate}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">City</th>
+                                                  <td class="col-md-9">{{$record->officecity}}</td>
+                                              </tr>
+
+                                              
+
+                                              <tr>
+                                              <th colspan="2" class="font-green">Training Information</th>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Training Title</th>
+                                                  <td class="col-md-9">{{$record->trainingtitle}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Training Category</th>
+                                                  <td>{{$record->category}}</td>
+                                              </tr>
+
+                                              <tr>
+                                                  <th class="col-md-3">Training Sub Category</th>
+                                                  <td>{{$record->subcategory}}</td>
+                                              </tr>
 
+                                              <tr>
+                                                  <th class="col-md-3">Training Method</th>
+                                                  <td>{{$record->method}}</td>
+                                              </tr>
 
-                                             <div class="col-md-6">
+                                              <tr>
+                                                  <th class="col-md-3">Training Location</th>
+                                                  <td class="col-md-9">{{$record->traininglocation}}</td>
+                                              </tr>
 
-                                                <label>Gender <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="gender" required>
-                                                    
-                                                    <option value="" selected>Select Gender</option>
+                                              <tr>
+                                                  <th class="col-md-3">Location Address</th>
+                                                  <td class="col-md-9">{{$record->locationaddress}}</td>
+                                              </tr>
 
-                                                    <option value="1-Male">Male</option>
+                                              <tr>
+                                                  <th class="col-md-3">Training Start Date</th>
+                                                  <td class="col-md-9">{{$record->startdate}}</td>
+                                              </tr>
+                                              <tr>
+                                                <th>Training End Date</th>
+                                                <td>{{$record->enddate}}</td>
+                                              </tr>
+                                              <tr>
+                                                <th>Training Length</th>
+                                                <td>{{$record->traininglength}}</td>
+                                              </tr>
+                                              <tr>
+                                                <th>Number Of Participants</th>
+                                                <td>{{$record->numberofparticipants}}</td>
+                                              </tr>
+                                              
 
-                                                    <option value="2-Female">Female</option>
+                                              <tr>
+                                              <th colspan="2" class="font-green">Trainers Information</th>
+                                              </tr>
 
-                                                </select>
+                                              <tr>
+                                                  <th class="col-md-3">Master Trainer</th>
+                                                  <td>{{$record->trainerone}}</td>
+                                              </tr>
 
-                                                @if($errors->has('gender'))
-                                                <span style="color:red;">{{$errors->first('gender')}}</span>
-                                                @endif    
+                                              <tr>
+                                                  <th class="col-md-3">Trainer or Facilitator</th>
+                                                  <td class="col-md-9">{{$record->trainertwo}}</td>
+                                              </tr>
 
-                                             </div> 
+                                              <tr>
+                                                  <th class="col-md-3">Trainer or Facilitator</th>
+                                                  <td class="col-md-9">{{$record->trainerthree}}</td>
+                                              </tr>
 
-                                             <div class="col-md-6">
-                                                <label>Home / Office Address  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="address" required="required">
-                                             
-                                                @if($errors->has('address'))
-                                                <span style="color:red;">{{$errors->first('address')}}</span>
-                                                @endif    
+                                              <tr>
+                                                  <th class="col-md-3">Trainer or Facilitator</th>
+                                                  <td class="col-md-9">{{$record->trainerfour}}</td>
+                                              </tr>
 
-                                             </div>
+                                              <tr>
+                                              <th colspan="2" class="font-green">Entry Information</th>
+                                              </tr>
 
+                                              <tr>
+                                                  <th class="col-md-3">Record Id</th>
+                                                  <td class="col-md-9">{{$record->id}}</td>
+                                              </tr>
 
-                                             <div class="col-md-6">
-                                                <br> <label>Mobile Number  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" id="mask_phone" required="required">
-                                             
-                                                @if($errors->has('mobile'))
-                                                <span style="color:red;">{{$errors->first('mobile')}}</span>
-                                                @endif    
+                                              <tr>
+                                                  <th class="col-md-3">Entered By</th>
+                                                  <td><?php $addedby = explode("-", $record->addedby); ?>{{$addedby[1]}}</td>
+                                              </tr>
 
-                                             </div>
+                                              <tr>
+                                                  <th class="col-md-3">Entry Date</th>
+                                                  <td class="col-md-9">{{$record->created_at}}</td>
+                                              </tr>
 
+                                              
 
-                                             <div class="col-md-6">
-                                                <br> <label>Email Address  <span style="color:green;">( Optional )</span></label>
-                                              <input type="email" value="{{old('email')}}" class="form-control" placeholder="Email Address" name="email" >
-                                             @if($errors->has('email'))
-                                                <span style="color:red;">{{$errors->first('email')}}</span>
-                                                @endif
-                                             
 
-                                             </div>
 
 
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Qualification, Skills and Profession</h3>
-                                                <hr>
-                                             </div>
 
 
-                                             <div class="col-md-6">
-                                                <label>Trainer Qualification  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('qualification')}}" class="form-control" placeholder="Trainer Qualification" name="qualification" required="required">
-                                             
-                                                @if($errors->has('qualification'))
-                                                <span style="color:red;">{{$errors->first('qualification')}}</span>
-                                                @endif    
 
-                                             </div>
 
+                                              @empty
 
-                                             <div class="col-md-6">
+                                              <tr>
+                                                  <th colspan="2"><div class="alert alert-info">Record Not Found...!</div></th>
+                                              </tr>
+                                              @endforelse
+                                          </table>
 
-                                                 <label>Profession / Job <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#profession" data-backdrop="static" data-kyeboard="false">Add Profession</a>
-                                                
-                                                <select class="form-control" name="profession" required>
-                                                    
-                                                    <option value="" selected>Select Profession</option>
 
-                                                    @forelse($getprofession as $job)
 
-                                                    <option value="{{$job->id}}-{{$job->profession}}">{{$job->profession}}</option>
 
-                                                    @empty
 
-                                                    <option value="">Record not Found..!</option>
 
-                                                    @endforelse
 
-                                                </select>
 
-                                                @if($errors->has('profession'))
-                                                <span style="color:red;">{{$errors->first('profession')}}</span>
-                                                @endif    
 
-                                             </div>
 
 
-                                             <div class="col-md-6">
 
-                                                <br> <label>Trainer Type <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainertype" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Type</option>
 
-                                                    <option value="1">In Service</option>
-                                                    <option value="2">Pre Service</option>
-                                                    <option value="3">Volunteer</option>
 
-                                                </select>
-
-                                                @if($errors->has('trainertype'))
-                                                <span style="color:red;">{{$errors->first('trainertype')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-
-                                                <br> <label>Trainer Level <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainerlevel" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Level</option>
-
-                                                    <option value="1">Training Expert</option>
-                                                    <option value="2">Qualified Trainer</option>
-                                                    <option value="3">Master Trainer</option>
-
-                                                </select>
-
-                                                @if($errors->has('trainerlevel'))
-                                                <span style="color:red;">{{$errors->first('trainerlevel')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-                                               <br> <label>Primary Language  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('primarylanguage')}}" class="form-control" placeholder="Primery Language" name="primarylanguage" required="required">
-                                             
-                                                @if($errors->has('primarylanguage'))
-                                                <span style="color:red;">{{$errors->first('primarylanguage')}}</span>
-                                                @endif    
-
-                                             </div>
-
-                                             <div class="col-md-6">
-                                               <br> <label>Secondary Languages  <span style="color:green;">( Optional )</span></label>
-                                              <input type="text" value="{{old('secondarylanguage')}}" class="form-control" placeholder="Secondary Languages ( Sindhi, English, Punjabi )" name="secondarylanguage">
-                                             
-                                             @if($errors->has('secondarylanguage'))
-                                                <span style="color:red;">{{$errors->first('secondarylanguage')}}</span>
-                                                @endif 
-                                                 
-
-                                             </div>
-
-
-                                             <div class="col-md-12">
-                                               <br> <label>Additional Information  <span style="color:green;">( Optional )</span></label>
-                                              <textarea  class="form-control" placeholder="Additional Information" name="info" >
-                                              {{old('info')}}
-                                             </textarea>
-                                                   
-
-                                             </div>
-
-
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Project and Reporting Place</h3>
-                                                <hr>
-                                             </div>
-
-
-                                              <div class="col-md-6">
-                                               <label>Project  <span style="color:red;">*</span></label>
-                                               <select class="form-control" name="project" required="required">
-                                                   <option value="" selected>Select Project</option>
-
-                                                   @forelse($project as $recordtwo)
-
-                                                   <option value="{{$recordtwo->projectid}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
-
-                                                   @empty
-
-                                                   <option value="">Record Not Found..!</option>
-
-                                                   @endforelse
-
-                                               </select>  
-                                                
-                                                @if($errors->has('project'))
-                                                <span style="color:red;">{{$errors->first('project')}}</span>
-                                                @endif 
-                                                 
-                                               <br>
-                                             </div>
-
-                                             <div class="col-md-6">
-
-                                               <label>Reporting Office  <span style="color:red;">*</span></label>
-                                               <a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
-                                               <input type="text" name="reportingoffice" placeholder="Select Reporting Office" class="form-control" value="{{old('reportingoffice')}}" id="officename" readonly="readonly" required>
-                                               @if($errors->has('reportingoffice'))
-                                                <span style="color:red;">{{$errors->first('reportingoffice')}}</span>
-                                                @endif
-                                             <br>
-                                             </div>
-                                             <input type="hidden" name="officecode" id="officecode" value="{{old('officecode')}}">
-                                             <input type="hidden" name="officeaddress" id="officeaddress" value="{{old('officeaddress')}}">
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                            </div>
-                                            <div class="col-md-2"></div>
-                                            </div>    
-
-
-
-
-                                            </div>
-                                                
-                                                
-                         
-                                            
-                                            <div class="form-actions">
-                                                <div class="row">
-                                                    <div class="col-md-12"><center>
-                                                        <button type="submit" class="btn green">Register</button>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <button type="reset" class="btn default">Cancel</button>
-                                                        </center>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        
-                                        </div>
+                                          </div>
+                                          <div class="col-md-2"></div>
+                                    </div>   <br>
+                                    </div>   
+                                    
                                         <!-- END FORM-->
                                    
                                 </div>
@@ -990,176 +866,6 @@
     
 
 
-<!-- Add Profession Start -->
-
-
-
-
-<div class="modal fade" id="profession" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Add a new Profession</strong></h4>
-      </div>
-      <form method="post" action="{{route('profession.add')}}">
-      {{ csrf_field() }}
-      <div class="modal-body">
-
-      @if(Session('profession'))
-
-      <div class="alert alert-success">Success: {{Session('profession')}}</div>
-
-      @endif
-      
-        <div class="form-group">
-            <label>Profession<span style="color: red;">*</span></label>
-            <input type="text" name="profession" placeholder="Profession" required="required" class="form-control">
-            <span style="font-size: 12px;color:green; ">Spelling must be Accurate</span>
-            @if($errors->has('profession'))
-            <span style="color:red;">{{$errors->first('profession')}}</span>
-            @endif
-        </div>
-        <div class="form-group">
-            <label>Additional Info <span style="color: green;">( Optional )</span></label>
-            <textarea name="info" placeholder="Additional Information About Profession" class="form-control">
-            </textarea>
-        </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Add profession end -->
-
-
-
-
-<!-- Select Office -->
-
-
-
-<div class="modal fade" id="office" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content ">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Select Project Office</strong></h4>
-      </div>
-
-      <div class="modal-body">
-
-       <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                S.No
-                                                            </th>
-                                                            <th> Office Id </th>
-                                                            <th> Office </th>
-                                                            <th> Address </th>
-                                
-                                                            <th>Action</th>
-                                                        </tr>
-                                                    </thead>
-<tbody>
-                                                        
-    <?php $var = 1; ?>
-    
-    @forelse($office as $record)
-    
-    <tr class="odd gradeX">
-        
-    <td>{{$var}}</td>
-        
-    <td>{{$record->branchcode}}</td>
-    
-    <td>{{$record->branch}}</td>
-    <td>
-    {{$record->address}}, <?php 
-    $country = explode("-", $record->country);
-    $state = explode("-", $record->state);
-    $city = explode("-", $record->city); ?>
-    {{$country[1]." / ".$state[1]." / ".$city[1]}}
-    </td>    
-   
-    
-    <td>
-    <div class="btn-group">
-    <button class="btn btn-xs btn-info selecter" id="{{$record->branchcode}}" name="{{$record->branch}}" address="{{$record->address}}, {{$country[1]." / ".$state[1]." / ".$city[1]}}"><i class="fa fa-check"></i> Select 
-    </button>
-    
-    </div>
-                                                            </td>
-                                                        </tr>
-    
-    <?php $var++; ?>
-@empty
-    
-    
-<tr class="odd gradeX">
-    
-    <td colspan="6">
-        <div class="alert alert-info">
-        <strong>Record Not Found...!</strong>
-        </div>
-    </td>
-    
-</tr>
-    
-    
-@endforelse    
-                                                                                                    
-</tbody>
-                                                </table> 
-
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        
-      </div>
-      
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-<!-- Select office -->
-
-
-
-
 
 
 
@@ -1226,54 +932,48 @@
 <script src="{!! asset('theme/assets/global/plugins/jquery.input-ip-address-control-1.0.min.js') !!}" type="text/javascript"></script>
 
 <script type="text/javascript">
-    
+ 
+    function printData()
+{
+   var divToPrint=document.getElementById("printTable");
+   newWin= window.open("");
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+}
+
 $(document).ready(function(){
 
 
-$("#mask_phone").inputmask("9999-9999999");
-
-$("#cnic").inputmask("99999-9999999-9");
-
-$('#sample_1').DataTable({
-        
-         
-        "pageLength": 12,
-             
-        
-    });
-
-$(".selecter").click(function(){
-
-$("#officename").val('');
-
-var branchcode = $(this).attr("id");
-var branch = $(this).attr("name");
-var address = $(this).attr("address");
-
-$("#officename").val(branch);
-
-$("#officecode").val(branchcode);
-
-$("#officeaddress").val(address);
-
-$("#office").modal('hide');
-
-
+$("#printclick").click(function(){
+    
+   printData(); 
+    
 });
+    
+// $("#deletenow").click(function(){
+   
+// var cnf = confirm("Are You Sured you want to delete this Training...!");
 
-
-
-@if(Session('profession') || $errors->has('profession'))
-
-$("#profession").modal({
-
-backdrop:'static',
-kyeboard:false
-
-});
-
-@endif
-
+// var pid = $(".deleteone").attr("id");
+    
+// if(cnf == true)
+// {
+  
+//     window.location.href="{{url('training/delete')}}/"+pid;
+    
+// }
+    
+// }); 
+    
+    
+// $("#editbtn").click(function(){
+    
+//     var pid = $("#pid").val();
+//     window.location.href="{{url('/project/edit/')}}/"+pid;
+    
+// });    
+ 
 
 
 });

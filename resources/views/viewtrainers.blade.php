@@ -170,11 +170,44 @@
     <td>{{$record->email}}</td>
     <td>{{$record->qualification}}</td>
     <td><?php $profession = explode("-", $record->profession); ?>{{$profession[1]}}</td>
-    <td><?php $trainertype = explode("-", $record->trainertype); ?>{{$trainertype[1]}}</td>
-    <td><?php $trainerlevel = explode("-", $record->trainerlevel); ?>{{$trainerlevel[1]}}</td>
+    <td>
+        
+       @if($record->trainertype == 1)
+       
+       {{"In Service"}}
+
+       @elseif($record->trainertype == 2)
+
+       {{"Pre Service"}}
+
+       @elseif($record->trainertype == 3)
+
+       {{"Volunteer"}}
+
+       @endif        
+
+    </td>
+    <td>
+        
+       @if($record->trainerlevel == 1)
+       
+       {{"Training Expert"}}
+
+       @elseif($record->trainerlevel == 2)
+
+       {{"Qualified Trainer"}}
+
+       @elseif($record->trainerlevel == 3)
+
+       {{"Master Trainer"}}
+
+       @endif  
+
+
+    </td>
     <td>{{$record->primarylanguage}}</td>
     <td>{{$record->secondarylanguage}}</td>
-    <td>{{$record->Info}}</td>
+    <td>{{$record->info}}</td>
     <td><?php $project = explode("-", $record->project); ?>{{$project[1]}}</td>
     <td>{{$record->reportingoffice}}</td>
     <td>{{$record->officecode}}</td>

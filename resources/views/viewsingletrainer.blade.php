@@ -72,7 +72,7 @@
                                                         
                                                         </label>
                                                         
-                                                        <label class="btn btn-info btn-outline btn-circle btn-sm" id="editbtn">
+                                                        <!-- <label class="btn btn-info btn-outline btn-circle btn-sm" id="editbtn">
                                                             
                                                             <input type="radio" name="options" class="toggle" id="option2"><i class="fa fa-edit"></i>&nbsp;Edit
                                                         
@@ -82,7 +82,7 @@
                                                             
                                                             <input type="radio" name="options" class="toggle" id="option1"><i class="fa fa-trash-o"></i>&nbsp;Delete
                                                         
-                                                        </label>
+                                                        </label> -->
                                                         
                                                         
                                                     </div>
@@ -163,12 +163,46 @@
 
                                               <tr>
                                                   <th class="col-md-3">Trainer Type</th>
-                                                  <td><?php $trainertype = explode("-", $record->trainertype); ?>{{$trainertype[1]}}</td>
+                                                  <td>
+                                                    
+                                                    @if($record->trainertype == 1)
+       
+                                                    {{"In Service"}}
+
+                                                    @elseif($record->trainertype == 2)
+
+                                                    {{"Pre Service"}}
+
+                                                    @elseif($record->trainertype == 3)
+
+                                                    {{"Volunteer"}}
+
+                                                    @endif        
+
+
+
+                                                  </td>
                                               </tr>
 
                                               <tr>
                                                   <th class="col-md-3">Trainer Level</th>
-                                                  <td><?php $trainerlevel = explode("-", $record->trainerlevel); ?>{{$trainerlevel[1]}}</td>
+                                                  <td>
+                                                    
+                                                    @if($record->trainerlevel == 1)
+       
+                                                   {{"Training Expert"}}
+
+                                                   @elseif($record->trainerlevel == 2)
+
+                                                   {{"Qualified Trainer"}}
+
+                                                   @elseif($record->trainerlevel == 3)
+
+                                                   {{"Master Trainer"}}
+
+                                                   @endif 
+
+                                                  </td>
                                               </tr>
 
                                               <tr>

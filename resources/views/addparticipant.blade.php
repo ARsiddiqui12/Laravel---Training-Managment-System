@@ -79,7 +79,7 @@
                                       
 
                                         <!-- BEGIN FORM-->
-                                        <form action="{{route('trainer.add')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
                                             
                                             {{ csrf_field() }}
                                             
@@ -88,20 +88,108 @@
                                             <div class="form-group">
                                             <div class="col-md-2"></div>
                                             <div class="col-md-8" style="border:1px solid #eef1f5; padding:10px;">
+
+                                            <div class="row">
+
                                             <div class="col-md-12">
                                                 
-                                                <h3 style="margin:0px;">Personal Information</h3>
-                                                <hr>
+                                                <a href="javascript:;" id="showinfobtn" class="btn btn-info pull-right" style="text-decoration: none;">Training Info</a>
+
+                                                
+
+                                            </div>
+                                            
+                                            </div>
+
+                                            
+
+                                            <div class="row" id="traininginfo">
+
+                                            <div class="col-md-12">
+                                              
+                                              <table class="table table-bordered">
+                                                <thead>
+                                                  <tr>
+                                                    <th class="col-md-12" colspan="2">Training Information</th>
+                                                  </tr>
+                                                </thead>
+                                                @forelse($training as $record)
+                                                <tr>
+                                                  <th class="col-md-4">Project Name & Id</th>
+                                                  <td class="col-md-8">{{$record->projectname}} - {{$record->projectid}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-4">Reporting Office & Code</th>
+                                                  <td class="col-md-8">{{$record->reportingoffice}} - {{$record->officecode}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-4">Training Title</th>
+                                                  <td class="col-md-8">{{$record->trainingtitle}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-3">Start Date</th>
+                                                  <td class="col-md-8">{{$record->startdate}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                  <th class="col-md-3">End Date</th>
+                                                  <td class="col-md-8">{{$record->enddate}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-4">Main Category</th>
+                                                  <td class="col-md-8">{{$record->category}}</td>
+                                                  </tr>
+                                                  <tr>
+                                                  <th class="col-md-3">Sub Category</th>
+                                                  <td class="col-md-8">{{$record->subcategory}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-3">Training Method</th>
+                                                  <td class="col-md-8">{{$record->method}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-3">Training Location</th>
+                                                  <td class="col-md-8">{{$record->traininglocation}}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th class="col-md-3">Master Trainer</th>
+                                                  <td class="col-md-8">{{$record->trainerone}}</td>
+                                                </tr>
+                                                @empty
+
+                                                <tr>
+                                                  <th class="col-md-12" colspan="2">Record Not Found..!</th>
+                                                </tr>                                                
+
+                                                @endforelse
+
+                                              </table>
 
                                             </div>
 
+                                            </div>
+
+                                           
+
+
+
+                                            <div class="row">
+                                            <div class="col-md-12">
+                                                
+                                                <h3 style="margin:0px;">Personal Information</h3>
+                                                
+                                                <br>
+                                            </div>
+                                            </div>
+
+                                              <div class="row">
+
 
                                              <div class="col-md-6">
-                                               <label>Trainer Name <span style="color:red;">*</span></label>   
-                                             <input type="text" value="{{old('trainername')}}" class="form-control" placeholder="Trainer Name" name="trainername" required="required">
+                                               <label>Participant Name <span style="color:red;">*</span></label>   
+                                             <input type="text" value="{{old('participantname')}}" class="form-control" placeholder="Participant Name" name="participantname" required="required">
                                              
-                                                @if($errors->has('trainername'))
-                                                <span style="color:red;">{{$errors->first('trainername')}}</span>
+                                                @if($errors->has('participantname'))
+                                                <span style="color:red;">{{$errors->first('participantname')}}</span>
                                                 @endif   
                                                 
                                              </div>
@@ -116,7 +204,9 @@
 
                                              </div>   
 
+                                             </div>
 
+                                             <div class="row">
 
                                              <div class="col-md-6">
                                                  <br><label>CNIC Number <span style="color:red;">*</span></label>
@@ -127,7 +217,7 @@
                                                 @endif    
 
                                              </div> 
-                                             <div class="form-group">
+                                            
                                              <div class="col-md-6">
                                              
                                                 <br> <label>Date Of Birth <span style="color:red;">*</span></label>
@@ -144,12 +234,15 @@
                                                 <span style="color:red;">{{$errors->first('dateofbirth')}}</span>
                                                 @endif    
                                                 </div>
-                                             </div> 
+                                           
+
+                                             </div>
 
 
+                                             <div class="row">
                                              <div class="col-md-6">
 
-                                                <label>Gender <span style="color:red;">*</span></label>
+                                                <br><label>Gender <span style="color:red;">*</span></label>
                                                 
                                                 <select class="form-control" name="gender" required>
                                                     
@@ -168,8 +261,8 @@
                                              </div> 
 
                                              <div class="col-md-6">
-                                                <label>Home / Office Address  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home / Office Address" name="address" required="required">
+                                               <br> <label>Home Address  <span style="color:green;">( Optional )</span></label>
+                                              <input type="text" value="{{old('address')}}" class="form-control" placeholder="Home Address " name="address">
                                              
                                                 @if($errors->has('address'))
                                                 <span style="color:red;">{{$errors->first('address')}}</span>
@@ -177,7 +270,9 @@
 
                                              </div>
 
+                                             </div>
 
+                                             <div class="row">
                                              <div class="col-md-6">
                                                 <br> <label>Mobile Number  <span style="color:red;">*</span></label>
                                               <input type="text" value="{{old('mobile')}}" class="form-control" placeholder="Mobile Number" name="mobile" id="mask_phone" required="required">
@@ -198,16 +293,40 @@
                                              
 
                                              </div>
+                                             </div>
 
+                                             <div class="row">
+                                             <div class="col-md-12">
+                                             <hr>
+                                                <h3 style="margin:0px;">Qualification and Profession</h3>
+                                                <br>
+                                             </div>
+                                             </div>
 
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Qualification, Skills and Profession</h3>
-                                                <hr>
+                                             <div class="row">
+                                               
+                                               <div class="col-md-12">
+
+                                               <label>Participant Working / Targeted Place  <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
+<input type="text" value="{{old('targetedplace')}}" class="form-control" id="targetedname" placeholder="Participant Working / Targeted Place" name="targetedplace" required="required" readonly="readonly">
+                                             
+                                                @if($errors->has('targetedplace'))
+                                                <span style="color:red;">{{$errors->first('targetedplace')}}</span>
+                                                @endif  
+<input type="hidden" id="targetedid" name="targetedid">
+<input type="hidden" id="targetedaddress" name="targetedaddress">
+<input type="hidden" id="targetedcountry" name="targetedcountry">
+<input type="hidden" id="targetedstate" name="targetedstate">
+<input type="hidden" id="targetedcity" name="targetedcity">
+
+                                               </div>
+
                                              </div>
 
 
+                                             <div class="row">
                                              <div class="col-md-6">
-                                                <label>Trainer Qualification  <span style="color:red;">*</span></label>
+                                               <br> <label>Participant Qualification  <span style="color:red;">*</span></label>
                                               <input type="text" value="{{old('qualification')}}" class="form-control" placeholder="Trainer Qualification" name="qualification" required="required">
                                              
                                                 @if($errors->has('qualification'))
@@ -219,21 +338,21 @@
 
                                              <div class="col-md-6">
 
-                                                 <label>Profession / Job <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#profession" data-backdrop="static" data-kyeboard="false">Add Profession</a>
+                                                <br> <label>Profession / Job <span style="color:red;">*</span></label><a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#profession" data-backdrop="static" data-kyeboard="false">Add Profession</a>
                                                 
                                                 <select class="form-control" name="profession" required>
                                                     
                                                     <option value="" selected>Select Profession</option>
 
-                                                    @forelse($getprofession as $job)
+                                                    @forelse($profession as $row)
 
-                                                    <option value="{{$job->id}}-{{$job->profession}}">{{$job->profession}}</option>
+                                                    <option value="{{$row->id}}-{{$row->profession}}">{{$row->profession}}</option>
 
                                                     @empty
 
-                                                    <option value="">Record not Found..!</option>
-
+                                                    <option value="">Record not found...!</option>
                                                     @endforelse
+                                                    
 
                                                 </select>
 
@@ -242,70 +361,57 @@
                                                 @endif    
 
                                              </div>
+                                             </div>
 
 
-                                             <div class="col-md-6">
-
-                                                <br> <label>Trainer Type <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainertype" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Type</option>
-
-                                                    <option value="1">In Service</option>
-                                                    <option value="2">Pre Service</option>
-                                                    <option value="3">Volunteer</option>
-
-                                                </select>
-
-                                                @if($errors->has('trainertype'))
-                                                <span style="color:red;">{{$errors->first('trainertype')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-
-                                                <br> <label>Trainer Level <span style="color:red;">*</span></label>
-                                                
-                                                <select class="form-control" name="trainerlevel" required>
-                                                    
-                                                    <option value="" selected>Select Trainer Level</option>
-
-                                                    <option value="1">Training Expert</option>
-                                                    <option value="2">Qualified Trainer</option>
-                                                    <option value="3">Master Trainer</option>
-
-                                                </select>
-
-                                                @if($errors->has('trainerlevel'))
-                                                <span style="color:red;">{{$errors->first('trainerlevel')}}</span>
-                                                @endif    
-
-                                             </div> 
-
-
-                                             <div class="col-md-6">
-                                               <br> <label>Primary Language  <span style="color:red;">*</span></label>
-                                              <input type="text" value="{{old('primarylanguage')}}" class="form-control" placeholder="Primery Language" name="primarylanguage" required="required">
                                              
-                                                @if($errors->has('primarylanguage'))
-                                                <span style="color:red;">{{$errors->first('primarylanguage')}}</span>
-                                                @endif    
 
+
+                                             
+
+
+                                             
+
+                                             
+
+                                             <div class="row">
+                                             <div class="col-md-12">
+                                              <hr>
+                                                <h3 style="margin:0px;">Training Test Scores</h3>
+                                               <br>
+                                             </div>
+                                             </div>
+
+                                             <div class="row">
+
+                                              <div class="col-md-6">
+                                               <label>Pre-Test Score  <span style="color:green;">( Optional )</span></label>
+                                               <input type="number" name="pretestscore" placeholder="Pre-Test Score" class="form-control" value="{{old('pretestscore')}}">
                                              </div>
 
                                              <div class="col-md-6">
-                                               <br> <label>Secondary Languages  <span style="color:green;">( Optional )</span></label>
-                                              <input type="text" value="{{old('secondarylanguage')}}" class="form-control" placeholder="Secondary Languages ( Sindhi, English, Punjabi )" name="secondarylanguage">
-                                             
-                                             @if($errors->has('secondarylanguage'))
-                                                <span style="color:red;">{{$errors->first('secondarylanguage')}}</span>
-                                                @endif 
-                                                 
+                                               <label>Total Score / Out Of  <span style="color:green;">( Optional )</span></label>
+                                               <input type="number" name="posttestscore" placeholder="Total Score / Out Of" class="form-control" value="{{old('posttestscore')}}">
+                                             </div>
 
                                              </div>
+
+                                             <div class="row">
+
+                                             <div class="col-md-6">
+                                              <br> <label>Pre-Test Score  <span style="color:green;">( Optional )</span></label>
+                                               <input type="number" name="pretestscore" placeholder="Pre-Test Score" class="form-control" value="{{old('pretestscore')}}">
+                                             </div>
+
+                                             <div class="col-md-6">
+                                              <br> <label>Total Score / Out Of  <span style="color:green;">( Optional )</span></label>
+                                               <input type="number" name="posttestscore" placeholder="Total Score / Out Of" class="form-control" value="{{old('posttestscore')}}">
+                                             </div>
+
+                                             
+                                             </div>
+                                             
+                                             <div class="row">
 
 
                                              <div class="col-md-12">
@@ -317,49 +423,7 @@
 
                                              </div>
 
-
-                                             <div class="col-md-12"><br>
-                                                <h3 style="margin:0px;">Project and Reporting Place</h3>
-                                                <hr>
                                              </div>
-
-
-                                              <div class="col-md-6">
-                                               <label>Project  <span style="color:red;">*</span></label>
-                                               <select class="form-control" name="project" required="required">
-                                                   <option value="" selected>Select Project</option>
-
-                                                   @forelse($project as $recordtwo)
-
-                                                   <option value="{{$recordtwo->projectid}}-{{$recordtwo->title}}">{{$recordtwo->title}}</option>
-
-                                                   @empty
-
-                                                   <option value="">Record Not Found..!</option>
-
-                                                   @endforelse
-
-                                               </select>  
-                                                
-                                                @if($errors->has('project'))
-                                                <span style="color:red;">{{$errors->first('project')}}</span>
-                                                @endif 
-                                                 
-                                               <br>
-                                             </div>
-
-                                             <div class="col-md-6">
-
-                                               <label>Reporting Office  <span style="color:red;">*</span></label>
-                                               <a href="javascript:;" class="pull-right" data-toggle="modal" data-target="#office" data-backdrop="static" data-kyeboard="false">Select</a>
-                                               <input type="text" name="reportingoffice" placeholder="Select Reporting Office" class="form-control" value="{{old('reportingoffice')}}" id="officename" readonly="readonly" required>
-                                               @if($errors->has('reportingoffice'))
-                                                <span style="color:red;">{{$errors->first('reportingoffice')}}</span>
-                                                @endif
-                                             <br>
-                                             </div>
-                                             <input type="hidden" name="officecode" id="officecode" value="{{old('officecode')}}">
-                                             <input type="hidden" name="officeaddress" id="officeaddress" value="{{old('officeaddress')}}">
 
 
 
@@ -1061,11 +1125,11 @@
 
 
 <div class="modal fade" id="office" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel"><strong>Select Project Office</strong></h4>
+        <h4 class="modal-title" id="myModalLabel"><strong>Select Targeted Working Place</strong></h4>
       </div>
 
       <div class="modal-body">
@@ -1076,8 +1140,8 @@
                                                             <th>
                                                                 S.No
                                                             </th>
-                                                            <th> Office Id </th>
-                                                            <th> Office </th>
+                                                            <th> Place Id </th>
+                                                            <th> Place Name </th>
                                                             <th> Address </th>
                                 
                                                             <th>Action</th>
@@ -1086,34 +1150,42 @@
 <tbody>
                                                         
     <?php $var = 1; ?>
+
+    @forelse($targetedplace as $place)
+
+    <tr>
     
-    @forelse($office as $record)
-    
-    <tr class="odd gradeX">
-        
     <td>{{$var}}</td>
-        
-    <td>{{$record->branchcode}}</td>
-    
-    <td>{{$record->branch}}</td>
+
+    <td>{{$place->facilityid}}</td>
+
+    <td>{{$place->targetedplace}}</td>
+
     <td>
-    {{$record->address}}, <?php 
-    $country = explode("-", $record->country);
-    $state = explode("-", $record->state);
-    $city = explode("-", $record->city); ?>
+
+    {{$place->address}},
+
+    <?php 
+    $country = explode("-", $place->country);
+    $state = explode("-", $place->state);
+    $city = explode("-", $place->city); 
+    ?>
+
     {{$country[1]." / ".$state[1]." / ".$city[1]}}
-    </td>    
-   
-    
+
+    </td>
     <td>
+      
     <div class="btn-group">
-    <button class="btn btn-xs btn-info selecter" id="{{$record->branchcode}}" name="{{$record->branch}}" address="{{$record->address}}, {{$country[1]." / ".$state[1]." / ".$city[1]}}"><i class="fa fa-check"></i> Select 
+    
+    <button class="btn btn-xs btn-info selecter" id="{{$place->facilityid}}" name="{{$place->targetedplace}}" address="{{$place->address}}" country="{{$country[1]}}" state="{{$state[1]}}" city="{{$city[1]}}"><i class="fa fa-check"></i> Select 
     </button>
     
     </div>
-                                                            </td>
-                                                        </tr>
-    
+
+    </td>
+    </tr>
+
     <?php $var++; ?>
 @empty
     
@@ -1128,11 +1200,14 @@
     
 </tr>
     
+
+    @endforelse
+
     
-@endforelse    
                                                                                                     
 </tbody>
-                                                </table> 
+
+</table> 
 
       </div>
 
@@ -1229,6 +1304,13 @@
     
 $(document).ready(function(){
 
+$("#traininginfo").hide();
+
+$("#showinfobtn").click(function(){
+
+$("#traininginfo").toggle();
+
+});
 
 $("#mask_phone").inputmask("9999-9999999");
 
@@ -1242,25 +1324,37 @@ $('#sample_1').DataTable({
         
     });
 
+
 $(".selecter").click(function(){
 
-$("#officename").val('');
+var placeid = $(this).attr("id");
 
-var branchcode = $(this).attr("id");
-var branch = $(this).attr("name");
+var place   = $(this).attr("name");
+
 var address = $(this).attr("address");
 
-$("#officename").val(branch);
+var country = $(this).attr("country");
 
-$("#officecode").val(branchcode);
+var state   = $(this).attr("state");
 
-$("#officeaddress").val(address);
+var city    = $(this).attr("city");
+
+$("#targetedid").val(placeid);
+
+$("#targetedname").val(place);
+
+$("#targetedaddress").val(address);
+
+$("#targetedcountry").val(country);
+
+$("#targetedstate").val(state);
+
+$("#targetedcity").val(city);
 
 $("#office").modal('hide');
 
 
 });
-
 
 
 @if(Session('profession') || $errors->has('profession'))
